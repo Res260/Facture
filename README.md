@@ -1,6 +1,7 @@
 # Facture
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.1.
+STILL WORK IN PROGRESS
 
 ## Development server
 
