@@ -1,5 +1,33 @@
-<div class="ui-g">
-	<div class="ui-g-6">wew</div>
-	<div class="ui-g-6">lad</div>
+<div class="ui-g grid">
+	<div class="ui-g-12 grid-header">
+		<div class="ui-g-4" i18n>Facture</div>
+		<div class="ui-g-4" i18n>Description</div>
+		<div class="ui-g-4" i18n>Prix payé</div>
+	</div>
+	<div class="ui-g-12 grid-add">
+		<div class="ui-g-4">
+			<input pInputText i18n-placeholder
+				   placeholder="Nouvelle facture..."
+				   [(ngModel)]="newBill.title"/>
+		</div>
+		<div class="ui-g-4">
+			<input pInputText i18n-placeholder
+				   placeholder="Description"
+				   [(ngModel)]="newBill.description"/>
+		</div>
+		<div class="ui-g-2">
+			<p-spinner [(ngModel)]="newBill.totalPrice" [min]="0"></p-spinner>
+		</div>
+		<div class="ui-g-2">
+			<button pButton type="button" (click)="addNewBill()" i18n-label
+					label="Ajouter"></button>
+		</div>
+	</div>
+	<div class="ui-g-12 grid-entry" *ngFor="let bill of bills.reverse()">
+		<div class="ui-g-4">{{ bill.title }}</div>
+		<div class="ui-g-5">{{ bill.description }}</div>
+		<div class="ui-g-3">{{ bill.totalPrice }}</div>
+	</div>
 </div>
-<pre>{{bills|json}}</pre>
+<hr>
+<pre>{{newBill|json}}</pre>

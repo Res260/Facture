@@ -9,12 +9,19 @@ import {Bill} from './_models/bill';
 })
 export class AppComponent implements OnInit {
 
-	protected bills: Array<Bill>;
+	protected bills: Array<Bill> = [];
+
+	protected newBill: Bill = new Bill();
 
 	constructor(private billService: BillService) {
 	}
 
 	public ngOnInit(): void {
 		this.billService.getAll().subscribe(bills => this.bills = bills);
+	}
+
+	protected addNewBill(): void {
+		this.bills.push(this.newBill);
+		this.newBill = new Bill();
 	}
 }

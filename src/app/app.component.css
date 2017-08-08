@@ -1,0 +1,11 @@
+.grid {
+	border: 2px solid black;
+}
+
+.grid-header {
+	font-weight: bold;
+}
+
+.grid-entry {
+	border-top: 1px solid black;
+}

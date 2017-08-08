@@ -5,13 +5,20 @@ import {AppComponent} from './app.component';
 import {BillService} from './_services/bill.service';
 import {HttpModule} from '@angular/http';
 
+import {ButtonModule, InputTextModule, SpinnerModule} from 'primeng/primeng';
+import {FormsModule} from '@angular/forms';
+
 @NgModule({
 	declarations: [
 		AppComponent
 	],
 	imports: [
 		BrowserModule,
-		HttpModule
+		HttpModule,
+		FormsModule,
+		InputTextModule,
+		SpinnerModule,
+		ButtonModule
 	],
 	providers: [
 		BillService
