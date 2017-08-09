@@ -21,7 +21,12 @@ export class AppComponent implements OnInit {
 	}
 
 	protected addNewBill(): void {
-		this.bills.push(this.newBill);
-		this.newBill = new Bill();
+		this.billService.createBill(this.newBill).subscribe(
+			bill => {
+				this.bills.push(bill);
+				this.newBill = new Bill();
+			}
+		);
+
 	}
 }
