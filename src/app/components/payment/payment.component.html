@@ -1,0 +1,8 @@
+<h1 i18n>Payments à effectuer:</h1>
+<div class="ui-g">
+	<div class="ui-g-12" *ngFor="let payment of payments">
+		<div class="ui-g-4">{{ payment.userFrom.name }}</div>
+		<div class="ui-g-4">{{ payment.userTo.name }}</div>
+		<div class="ui-g-4">{{ payment.amount }}</div>
+	</div>
+</div>

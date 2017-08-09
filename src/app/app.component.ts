@@ -10,7 +10,6 @@ import {Bill} from './_models/bill';
 export class AppComponent implements OnInit {
 
 	protected bills: Array<Bill> = [];
-
 	protected newBill: Bill = new Bill();
 
 	constructor(private billService: BillService) {

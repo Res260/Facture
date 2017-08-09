@@ -7,10 +7,15 @@ import {HttpModule} from '@angular/http';
 
 import {ButtonModule, InputTextModule, SpinnerModule} from 'primeng/primeng';
 import {FormsModule} from '@angular/forms';
+import {PaymentService} from './_services/payment.service';
+import {PaymentComponent} from './components/payment/payment.component';
+import {UserComponent} from './components/user/user.component';
 
 @NgModule({
 	declarations: [
-		AppComponent
+		AppComponent,
+		PaymentComponent,
+		UserComponent
 	],
 	imports: [
 		BrowserModule,
@@ -21,7 +26,8 @@ import {FormsModule} from '@angular/forms';
 		ButtonModule
 	],
 	providers: [
-		BillService
+		BillService,
+		PaymentService
 	],
 	bootstrap: [AppComponent]
 })

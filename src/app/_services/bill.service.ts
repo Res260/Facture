@@ -23,7 +23,7 @@ export class BillService {
 	 * @returns {Observable<Array<Bill>>} The observable which resolves to an array of {@link Bill}.
 	 */
 	public getAll(): Observable<Array<Bill>> {
-		return this.http.get(`${environment.backendUrl}bills`, this.headers)
+		return this.http.get(`${environment.backendUrl}bill`, this.headers)
 			.map(response => response.json())
 			.catch(ServiceUtil.handleError);
 	}
@@ -34,8 +34,8 @@ export class BillService {
 	 * @returns {Observable<Bill>} The observable of the request.
 	 */
 	public createBill(newBill: Bill): Observable<Bill> {
-		newBill.user_id = 1;
-		return this.http.post(`${environment.backendUrl}bills`, newBill, this.headers)
+		newBill.user.id = 1;
+		return this.http.post(`${environment.backendUrl}bill`, newBill, this.headers)
 			.map(response => response.json())
 			.catch(ServiceUtil.handleError);
 	}
