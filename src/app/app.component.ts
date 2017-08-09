@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {BillService} from './_services/bill.service';
 import {Bill} from './_models/bill';
+import {UsersDropdownComponent} from './components/user-dropdown/users-dropdown.component';
 
 @Component({
 	selector: 'app-root',
@@ -8,6 +9,9 @@ import {Bill} from './_models/bill';
 	styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+
+	@ViewChild('usersDropdown')
+	protected usersDropdownComponent: UsersDropdownComponent;
 
 	protected bills: Array<Bill> = [];
 	protected newBill: Bill = new Bill();
@@ -19,7 +23,11 @@ export class AppComponent implements OnInit {
 		this.billService.getAll().subscribe(bills => this.bills = bills);
 	}
 
+	/**
+	 * Requests the server to save a new {@link Bill} created by the selected user.
+	 */
 	protected addNewBill(): void {
+		this.newBill.user = this.usersDropdownComponent.selectedUser;
 		this.billService.createBill(this.newBill).subscribe(
 			bill => {
 				this.bills.push(bill);

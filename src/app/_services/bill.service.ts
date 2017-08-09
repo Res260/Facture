@@ -34,7 +34,6 @@ export class BillService {
 	 * @returns {Observable<Bill>} The observable of the request.
 	 */
 	public createBill(newBill: Bill): Observable<Bill> {
-		newBill.user.id = 1;
 		return this.http.post(`${environment.backendUrl}bill`, newBill, this.headers)
 			.map(response => response.json())
 			.catch(ServiceUtil.handleError);
