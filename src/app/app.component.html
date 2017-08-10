@@ -1,4 +1,4 @@
-<app-user-dropdown #usersDropdown></app-user-dropdown>
+<app-user-dropdown #usersDropdown [users]="users"></app-user-dropdown>
 <app-payment></app-payment>
 <div class="ui-g grid">
 	<div class="ui-g-12 grid-header">
@@ -7,18 +7,24 @@
 		<div class="ui-g-4" i18n>Prix payé</div>
 	</div>
 	<div class="ui-g-12 grid-add">
-		<div class="ui-g-4">
+		<div class="ui-g-2">
 			<input pInputText i18n-placeholder
 				   placeholder="Nouvelle facture..."
 				   [(ngModel)]="newBill.title"/>
 		</div>
-		<div class="ui-g-4">
+		<div class="ui-g-2">
 			<input pInputText i18n-placeholder
 				   placeholder="Description"
 				   [(ngModel)]="newBill.description"/>
 		</div>
 		<div class="ui-g-2">
 			<p-spinner [(ngModel)]="newBill.totalPrice" [min]="0"></p-spinner>
+		</div>
+		<div class="ui-g-3">
+			<div *ngFor="let user of users">
+				<p-checkbox [value]="user" [label]="user.name"
+							[(ngModel)]="newBillPartUsers"></p-checkbox>
+			</div>
 		</div>
 		<div class="ui-g-2">
 			<button pButton type="button" (click)="addNewBill()" i18n-label
@@ -38,4 +44,3 @@
 	</div>
 </div>
 <hr>
-<pre>{{newBill|json}}</pre>

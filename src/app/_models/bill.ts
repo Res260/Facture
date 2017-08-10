@@ -9,6 +9,6 @@ export class Bill {
 	public totalPrice: number;
 	public title: string;
 	public description: string;
-	public parts: Array<BillPart>;
+	public parts: Array<BillPart> = [];
 
 }

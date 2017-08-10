@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {User} from '../../_models/user';
-import {UserService} from '../../_services/user.service';
 import {DropdownElement} from '../../_models/dropdown-element';
 
 /**
@@ -11,26 +10,30 @@ import {DropdownElement} from '../../_models/dropdown-element';
 	templateUrl: './users-dropdown.component.html',
 	styleUrls: ['./users-dropdown.component.css']
 })
-export class UsersDropdownComponent implements OnInit {
+export class UsersDropdownComponent implements OnInit, OnChanges {
+
+	@Input()
+	public users: Array<User>;
 
 	public selectedUser: User;
 
 	protected dropdownUsers: Array<DropdownElement<User>>;
-	private users: Array<User> = [];
 
 
-	constructor(private userService: UserService) {
+	constructor() {
 	}
 
 	/**
 	 * Fetches all users asynchronously.
 	 */
 	public ngOnInit() {
-		this.userService.getAll().subscribe(users => {
-			this.users = users;
-			this.dropdownUsers = this.users.map(user => new DropdownElement(user.name, user));
+	}
+
+	public ngOnChanges(changes: SimpleChanges): void {
+		if (changes['users'] && changes['users'].currentValue) {
+			this.dropdownUsers = changes['users'].currentValue.map(user => new DropdownElement(user.name, user));
 			this.selectedUser = this.dropdownUsers[0].value;
-		});
+		}
 	}
 
 }
