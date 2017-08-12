@@ -1,22 +1,31 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {PaymentManager} from '../../_managers/payment.manager';
+import {Bill} from '../../_models/bill';
 import {Payment} from '../../_models/payment';
-import {PaymentService} from '../../_services/payment.service';
 
 @Component({
-	selector: 'app-payment',
-	templateUrl: './payment.component.html',
-	styleUrls: ['./payment.component.css']
-})
-export class PaymentComponent implements OnInit {
+               selector: 'app-payment',
+               templateUrl: './payment.component.html',
+               styleUrls: ['./payment.component.css']
+           })
+export class PaymentComponent implements OnInit, OnChanges {
 
-	@Input()
-	protected payments: Array<Payment> = [];
+    @Input()
+    protected payments: Array<Payment> = [];
 
-	constructor(private paymentService: PaymentService) {
-	}
+    @Input()
+    protected bills: Array<Bill>;
 
-	public ngOnInit() {
-		this.paymentService.getAll().subscribe(payments => this.payments = payments);
-	}
+    constructor(private paymentManager: PaymentManager) {
+    }
+
+    public ngOnInit(): void {
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes['bills']) {
+            this.payments = this.paymentManager.getPaymentsToDo(this.bills);
+        }
+    }
 
 }
