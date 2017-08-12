@@ -1,15 +1,19 @@
 .user-detail {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
-.user-detail .user-image {
+.user-detail .user-image-container {
     flex-basis: auto;
+    margin-right: 0.4em;
+}
+
+.user-detail .user-image-container .user-image {
     height: 50px;
+    width: 50px;
     border-radius: 50%;
     box-shadow: 0 0 10px grey;
-    margin-right: 0.4em;
 }
 
 .user-detail .user-name {

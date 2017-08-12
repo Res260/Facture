@@ -21,8 +21,6 @@ export class AppComponent implements OnInit {
 
     protected payments: Array<Payment> = [];
     protected bills: Array<Bill>       = [];
-    protected newBill: Bill            = new Bill();
-    protected newBillPartUsers: Array<User>;
     protected users: Array<User>;
 
     constructor(private billService: BillService,
@@ -47,18 +45,17 @@ export class AppComponent implements OnInit {
     }
 
     /**
-     * Requests the server to save a new {@link Bill} created by the selected user.
+     * Requests the server to save a new {@link Bill} created by the selected user. On success, updates the list of
+     * payments.
      */
-    protected addNewBill(): void {
-        this.billManager.addBillPartsToBillFromUserList(this.newBillPartUsers, this.newBill);
-        this.billManager.splitBillEvenly(this.newBill);
-        this.newBill.user = this.usersDropdownComponent.selectedUser;
-        this.billService.createBill(this.newBill).subscribe(
+    protected addNewBill(billAndUsers: { bill: Bill, users: Array<User> }): void {
+        this.billManager.addBillPartsToBillFromUserList(billAndUsers.users, billAndUsers.bill);
+        this.billManager.splitBillEvenly(billAndUsers.bill);
+        billAndUsers.bill.user = this.usersDropdownComponent.selectedUser;
+        this.billService.createBill(billAndUsers.bill).subscribe(
             bill => {
-                this.bills            = [...this.bills, bill];
-                this.newBill          = new Bill();
-                this.newBillPartUsers = [];
-                this.payments         = this.paymentManager.updatePayments(this.payments, this.bills, this.users);
+                this.bills    = [...this.bills, bill];
+                this.payments = this.paymentManager.updatePayments(this.payments, this.bills, this.users);
             }
         );
     }

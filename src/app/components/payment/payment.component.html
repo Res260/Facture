@@ -1,17 +1,17 @@
 <h2 i18n>Paiments à effectuer:</h2>
 <div class="ui-g payment-list">
-    <div class="ui-g-12 payment-detail"
+    <div class="ui-g-12 payment-detail flex-row"
          [ngClass]="{'paid': !payment.isNotPaid, 'unpaid': payment.isNotPaid}"
          *ngFor="let payment of payments.reverse()">
-        <div class="ui-g-3">
+        <div class="ui-g-8 user-from-to">
             <app-user [user]="payment.uFrom"></app-user>
-        </div>
-        <div class="ui-g-1"><img src="./assets/images/arrow.png" class="arrow"
-                                 alt="Flèche vers la droite"></div>
-        <div class="ui-g-3">
+            <img src="./assets/images/arrow.png" class="arrow"
+                 alt="Flèche vers la droite">
             <app-user [user]="payment.uTo"></app-user>
         </div>
-        <div class="ui-g-3" i18n>Montant: {{ payment.amount | number : '1.2-2' }}</div>
+        <div class="ui-g-2">
+            <span class="amount">{{ payment.amount | number : '1.2-2' }}$</span>
+        </div>
         <div class="ui-g-2">
             <button pButton type="button" (click)="addNewPayment(payment)"
                     i18n-label [label]="payment.isNotPaid ? 'Payer' : 'Déjà payé'"

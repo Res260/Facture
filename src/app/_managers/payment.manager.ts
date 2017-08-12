@@ -89,6 +89,11 @@ export class PaymentManager {
     private getBalances(bills: Array<Bill>, alreadyPaidPayments: Array<Payment>): Map<number, number> {
         const totalPaidByUser: Map<number, number>       = this.getTotalPaidByUser(bills);
         const separatedTotalsByUser: Map<number, number> = this.getSeparatedTotals(bills);
+        totalPaidByUser.forEach((totalPaid, userId) => {
+            if (!separatedTotalsByUser.has(userId)) {
+                separatedTotalsByUser.set(userId, 0);
+            }
+        });
         return this.calculateBalances(totalPaidByUser, separatedTotalsByUser, alreadyPaidPayments);
     }
 

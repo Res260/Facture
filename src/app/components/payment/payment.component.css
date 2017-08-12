@@ -15,6 +15,18 @@
     background: rgb(254, 255, 164);
 }
 
+.payment-detail .user-from-to {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
 .payment-detail .arrow {
     height: 50px;
+    flex-basis: auto;
+}
+
+.payment-detail .amount {
+    font-size: 110%;
+    font-weight: bold;
 }

@@ -13,6 +13,7 @@ import {PaymentService} from './_services/payment.service';
 import {UserService} from './_services/user.service';
 
 import {AppComponent} from './app.component';
+import {BillsComponent} from './components/bills/bills.component';
 import {PaymentComponent} from './components/payment/payment.component';
 import {UsersDropdownComponent} from './components/user-dropdown/users-dropdown.component';
 import {UserComponent} from './components/user/user.component';
@@ -22,7 +23,8 @@ import {UserComponent} from './components/user/user.component';
                   AppComponent,
                   PaymentComponent,
                   UserComponent,
-                  UsersDropdownComponent
+                  UsersDropdownComponent,
+                  BillsComponent
               ],
               imports: [
                   BrowserModule,
