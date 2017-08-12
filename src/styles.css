@@ -1,1 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* === HELPER CSS CLASSES === */
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-col > *, .flex-row > * {
+    align-self: center;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+/* === GLOBAL STYLE === */
+
+html {
+    margin: 0;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    background-color: rgb(255, 200, 100);
+}
+
+#application {
+    font-family: "Roboto", "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+h1 {
+    margin: 0.3em 0;
+}
+
+h2 {
+    margin: 0.5em 0;
+}

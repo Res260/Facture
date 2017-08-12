@@ -1,0 +1,12 @@
+.payment-list {
+    border: 2px solid black;
+    margin-bottom: 0.5em;
+}
+
+.payment-list .paid {
+    background: rgb(200, 255, 200);
+}
+
+.payment-list .unpaid {
+    background: rgb(254, 255, 164);
+}

@@ -1,3 +1,7 @@
+#app-title {
+    text-align: center;
+}
+
 .grid {
 	border: 2px solid black;
 }
