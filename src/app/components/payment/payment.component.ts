@@ -1,7 +1,7 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {PaymentManager} from '../../_managers/payment.manager';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Bill} from '../../_models/bill';
 import {Payment} from '../../_models/payment';
+import {PaymentService} from '../../_services/payment.service';
 
 @Component({
                selector: 'app-payment',
@@ -10,22 +10,32 @@ import {Payment} from '../../_models/payment';
            })
 export class PaymentComponent implements OnInit, OnChanges {
 
-    @Input()
-    protected payments: Array<Payment> = [];
+    @Output()
+    public paymentAdded: EventEmitter<void> = new EventEmitter<void>();
 
     @Input()
     protected bills: Array<Bill>;
+    @Input()
+    protected payments: Array<Payment>;
 
-    constructor(private paymentManager: PaymentManager) {
+    constructor(private paymentService: PaymentService) {
     }
 
     public ngOnInit(): void {
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        if (changes['bills']) {
-            this.payments = this.paymentManager.getPaymentsToDo(this.bills);
-        }
+    }
+
+    /**
+     * Saves a new payment in the server. Then, add it to the list of payment.
+     * @param {Payment} newPayment The payment to persist.
+     */
+    protected addNewPayment(newPayment: Payment): void {
+        this.paymentService.createPayment(newPayment).subscribe(payment => {
+            this.payments.push(payment);
+            this.paymentAdded.emit();
+        });
     }
 
 }

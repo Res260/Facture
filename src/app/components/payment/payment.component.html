@@ -1,2 +1,12 @@
 <h1 i18n>Payments à effectuer:</h1>
-<pre>{{payments|json}}</pre>
+<div class="ui-g">
+    <div class="ui-g-12" *ngFor="let payment of payments.reverse()">
+        <div class="ui-g-3" i18n>De: {{ payment.uFrom.name }}</div>
+        <div class="ui-g-3" i18n>À: {{ payment.uTo.name }}</div>
+        <div class="ui-g-3" i18n>Montant: {{ payment.amount }}</div>
+        <div class="ui-g-3">
+            <button pButton *ngIf="payment.isNotPaid" type="button" (click)="addNewPayment(payment)"
+                    i18n-label label="Payé!"></button>
+        </div>
+    </div>
+</div>

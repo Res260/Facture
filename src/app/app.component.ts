@@ -1,52 +1,72 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {BillService} from './_services/bill.service';
-import {Bill} from './_models/bill';
-import {UsersDropdownComponent} from './components/user-dropdown/users-dropdown.component';
-import {UserService} from './_services/user.service';
-import {User} from './_models/user';
 import {BillManager} from './_managers/bill.manager';
+import {PaymentManager} from './_managers/payment.manager';
+import {Bill} from './_models/bill';
+import {Payment} from './_models/payment';
+import {User} from './_models/user';
+import {BillService} from './_services/bill.service';
+import {PaymentService} from './_services/payment.service';
+import {UserService} from './_services/user.service';
+import {UsersDropdownComponent} from './components/user-dropdown/users-dropdown.component';
 
 @Component({
-	selector: 'app-root',
-	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.css']
-})
+               selector: 'app-root',
+               templateUrl: './app.component.html',
+               styleUrls: ['./app.component.css']
+           })
 export class AppComponent implements OnInit {
 
-	@ViewChild('usersDropdown')
-	protected usersDropdownComponent: UsersDropdownComponent;
+    @ViewChild('usersDropdown')
+    protected usersDropdownComponent: UsersDropdownComponent;
 
-	protected bills: Array<Bill> = [];
-	protected newBill: Bill = new Bill();
-	protected newBillPartUsers: Array<User>;
-	protected users: Array<User>;
+    protected payments: Array<Payment> = [];
+    protected bills: Array<Bill> = [];
+    protected newBill: Bill = new Bill();
+    protected newBillPartUsers: Array<User>;
+    protected users: Array<User>;
 
-	constructor(private billService: BillService,
-				private userService: UserService,
-				private billManager: BillManager) {
-	}
+    constructor(private billService: BillService,
+                private userService: UserService,
+                private paymentService: PaymentService,
+                private billManager: BillManager,
+                private paymentManager: PaymentManager) {
+    }
 
-	public ngOnInit(): void {
-		this.billService.getAll().subscribe(bills => this.bills = bills);
-		this.userService.getAll().subscribe(users => {
-			this.users = users;
-		});
-	}
+    /**
+     * Fetches the bills, users and payments.
+     */
+    public ngOnInit(): void {
+        this.userService.getAll().subscribe(users => this.users = users);
+        this.paymentService.getAll().subscribe(payments => {
+            this.billService.getAll().subscribe(bills => {
+                this.bills = bills;
+                this.payments = this.paymentManager.updatePayments(this.payments, this.bills);
+            });
+            this.payments = this.payments.concat(payments).reverse();
+        });
+    }
 
-	/**
-	 * Requests the server to save a new {@link Bill} created by the selected user.
-	 */
-	protected addNewBill(): void {
-		this.billManager.addBillPartsToBillFromUserList(this.newBillPartUsers, this.newBill);
-		this.billManager.splitBillEvenly(this.newBill);
-		this.newBill.user = this.usersDropdownComponent.selectedUser;
-		this.billService.createBill(this.newBill).subscribe(
-			bill => {
-				this.bills.push(bill);
-				this.newBill = new Bill();
-				this.newBillPartUsers = [];
-			}
-		);
+    /**
+     * Requests the server to save a new {@link Bill} created by the selected user.
+     */
+    protected addNewBill(): void {
+        this.billManager.addBillPartsToBillFromUserList(this.newBillPartUsers, this.newBill);
+        this.billManager.splitBillEvenly(this.newBill);
+        this.newBill.user = this.usersDropdownComponent.selectedUser;
+        this.billService.createBill(this.newBill).subscribe(
+            bill => {
+                this.bills = [...this.bills, bill];
+                this.newBill = new Bill();
+                this.newBillPartUsers = [];
+                this.payments = this.paymentManager.updatePayments(this.payments, this.bills);
+            }
+        );
+    }
 
-	}
+    /**
+     * Updates the list of payments.
+     */
+    protected onPaymentAdded(): void {
+        this.payments = this.paymentManager.updatePayments(this.payments, this.bills);
+    }
 }

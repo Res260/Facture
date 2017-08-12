@@ -14,48 +14,93 @@ export class PaymentManager {
     }
 
     /**
+     * Recalculate the payments to do and return the result with the already paid payments. The unpaid payments are at
+     * the end of the list.
+     * @param {Array<Payment>} payments The list of payments to update.
+     * @param bills The list of bills needed to update the payments.
+     * @returns {Array<Payment>}
+     */
+    public updatePayments(payments: Array<Payment>, bills: Array<Bill>): Array<Payment> {
+        return this.getAlreadyPaidPayments(payments)
+            .concat(this.getPaymentsToDo(bills,
+                                         this.getAlreadyPaidPayments(payments)));
+    }
+
+    /**
      * From a list of {@link Bill}, return a list of {@link Payment} to make to achieve equal payment of all the bills.
      * @param {Array<Bill>} bills The list of bill to calculate payments from.
+     * @param {Array<Payment>} alreadyPaidPayments The list of payments that have already been marked as paid (and
+     *                                             persisted in database).
      * @returns {Array<Payment>} The list of payments to do.
      */
-    public getPaymentsToDo(bills: Array<Bill>): Array<Payment> {
-        const payments: Array<Payment> = [];
+    public getPaymentsToDo(bills: Array<Bill>, alreadyPaidPayments: Array<Payment>): Array<Payment> {
+        const paymentsToDo: Array<Payment> = [];
         if (bills.length > 0) {
-            this.addPayments(this.getBalances(bills), payments);
+            const balances: Map<number, number> = this.getBalances(bills, alreadyPaidPayments);
+            if (this.hasOneDifferentThanZero(balances)) {
+                this.addPayments(balances, paymentsToDo);
+            }
         }
-        return payments;
+        return paymentsToDo;
+    }
+
+    /**
+     * @param {Array<Payment>} payments The list of payments to filter.
+     * @returns {Payment[]} The list of already paid payments (saved in DB).
+     */
+    private getAlreadyPaidPayments(payments: Array<Payment>): Array<Payment> {
+        return payments.filter(payment => !payment.isNotPaid);
+    }
+
+    /**
+     * @param {Map<number, number>} balances The list of balances.
+     * @returns {boolean} True if one balance is not zero.
+     */
+    private hasOneDifferentThanZero(balances: Map<number, number>): boolean {
+        let hasOneDifferentThanZero: boolean = false;
+        const iterator: IterableIterator<number> = balances.values();
+        let balance: IteratorResult<number> = iterator.next();
+        while (!hasOneDifferentThanZero && !balance.done) {
+            if (balance.value !== 0) {
+                hasOneDifferentThanZero = true;
+            }
+            balance = iterator.next();
+        }
+        return hasOneDifferentThanZero;
     }
 
     /**
      * From a list of {@link Bill}, calculates how much money each user should pay (negative balance) or get
      * paid (positive balance) to achieve equal payment.
      * @param {Array<Bill>} bills The list of bills
+     * @param {Array<Payment>} alreadyPaidPayments The list of payments that have already been marked as paid (and
+     *                                             persisted in database).
      * @returns {Map<number, number>} A map with a user id as key and balance (positive or negative) as value.
      */
-    private getBalances(bills: Array<Bill>): Map<number, number> {
+    private getBalances(bills: Array<Bill>, alreadyPaidPayments: Array<Payment>): Map<number, number> {
         const totalPaidByUser: Map<number, number> = this.getTotalPaidByUser(bills);
         const separatedTotalsByUser: Map<number, number> = this.getSeparatedTotals(bills);
-        return this.calculateBalances(totalPaidByUser, separatedTotalsByUser);
+        return this.calculateBalances(totalPaidByUser, separatedTotalsByUser, alreadyPaidPayments);
     }
 
     /**
      * Recursive function that pushes to the provided payment list for each
-     * @param {Map<number, number>} balances
-     * @param {Array<Payment>} payments
+     * @param {Map<number, number>} balances The list of balances (positive and negative).
+     * @param {Array<Payment>} paymentsToDo The list of payments to do
      */
-    private addPayments(balances: Map<number, number>, payments: Array<Payment>): void {
+    private addPayments(balances: Map<number, number>, paymentsToDo: Array<Payment>): void {
         const userWithBiggestBalance: number = this.getUserWithBiggestBalance(balances);
         const isBiggestBalancePositive: boolean = balances.get(userWithBiggestBalance) >= 0;
         const balancesOppositeSign: Map<number, number> = this.getBalancesOfOneSign(balances,
                                                                                     !isBiggestBalancePositive);
         const userWithBiggestBalanceOppositeSign: number = this.getUserWithBiggestBalance(balancesOppositeSign);
         if (isBiggestBalancePositive) {
-            this.addSinglePayment(userWithBiggestBalanceOppositeSign, userWithBiggestBalance, balances, payments);
+            this.addSinglePayment(userWithBiggestBalanceOppositeSign, userWithBiggestBalance, balances, paymentsToDo);
         } else {
-            this.addSinglePayment(userWithBiggestBalance, userWithBiggestBalanceOppositeSign, balances, payments);
+            this.addSinglePayment(userWithBiggestBalance, userWithBiggestBalanceOppositeSign, balances, paymentsToDo);
         }
         this.removeClearedBalances(balances);
-        this.addPaymentsIfNeeded(balances, payments);
+        this.addPaymentsIfNeeded(balances, paymentsToDo);
     }
 
     /**
@@ -156,10 +201,13 @@ export class PaymentManager {
      * Ex: Emilio paid 300$ worth of bills but the part he should've paid is 100$, he has a balance of +200$.
      * @param {Map<number, number>} totalPaidByUser The total paid by every user.
      * @param {Map<number, number>} separatedTotalsByUser The amount everyone should have paid.
+     * @param {Array<Payment>} alreadyPaidPayments The list of payments that have already been marked as paid (and
+     *                                             persisted in database).
      * @returns {Map<number, number>} A map with a user id as key and a balance as value (some positive, some negative).
      */
     private calculateBalances(totalPaidByUser: Map<number, number>,
-                              separatedTotalsByUser: Map<number, number>): Map<number, number> {
+                              separatedTotalsByUser: Map<number, number>,
+                              alreadyPaidPayments: Array<Payment>): Map<number, number> {
         const balances: Map<number, number> = new Map();
         separatedTotalsByUser.forEach((separatedTotal, userId) => {
             if (totalPaidByUser.has(userId)) {
@@ -167,6 +215,10 @@ export class PaymentManager {
             } else {
                 balances.set(userId, -separatedTotal);
             }
+        });
+        alreadyPaidPayments.forEach(payment => {
+            balances.set(payment.userFrom, balances.get(payment.userFrom) + payment.amount);
+            balances.set(payment.userTo, balances.get(payment.userTo) - payment.amount);
         });
         return balances;
     }

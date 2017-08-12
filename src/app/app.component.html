@@ -1,5 +1,6 @@
 <app-user-dropdown #usersDropdown [users]="users"></app-user-dropdown>
-<app-payment [bills]="bills"></app-payment>
+<app-payment [payments]="payments" [bills]="bills"
+             (paymentAdded)="onPaymentAdded($event)"></app-payment>
 <div class="ui-g grid">
     <div class="ui-g-12 grid-header">
         <div class="ui-g-4" i18n>Facture</div>

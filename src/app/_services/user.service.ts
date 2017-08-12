@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
-import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs/Rx';
-import {ServiceUtil} from '../_utils/ServiceUtil';
+import {environment} from '../../environments/environment';
 import {User} from '../_models/user';
+import {ServiceUtil} from '../_utils/ServiceUtil';
 
 /**
  * Service that queries users.
@@ -11,33 +11,21 @@ import {User} from '../_models/user';
 @Injectable()
 export class UserService {
 
-	private headers: Headers;
+    private headers: Headers;
 
-	constructor(private http: Http) {
-		this.headers = new Headers([]);
-		this.headers.append('Access-Control-Allow-Headers', 'Content-Type, X-XSRF-TOKEN, x_csrftoken');
-	}
+    constructor(private http: Http) {
+        this.headers = new Headers([]);
+        this.headers.append('Access-Control-Allow-Headers', 'Content-Type, X-XSRF-TOKEN, x_csrftoken');
+    }
 
-	/**
-	 * Fetches all users.
-	 * @returns {Observable<Array<User>>} The observable which resolves to an array of {@link User}.
-	 */
-	public getAll(): Observable<Array<User>> {
-		return this.http.get(`${environment.backendUrl}user`, this.headers)
-			.map(response => response.json())
-			.catch(ServiceUtil.handleError);
-	}
-
-	/**
-	 * Saves a new user in the server.
-	 * @param {User} newUser The user to be persisted.
-	 * @returns {Observable<User>} The observable of the request.
-	 */
-	public createUser(newUser: User): Observable<User> {
-		newUser.id = 1;
-		return this.http.post(`${environment.backendUrl}user`, newUser, this.headers)
-			.map(response => response.json())
-			.catch(ServiceUtil.handleError);
-	}
+    /**
+     * Fetches all users.
+     * @returns {Observable<Array<User>>} The observable which resolves to an array of {@link User}.
+     */
+    public getAll(): Observable<Array<User>> {
+        return this.http.get(`${environment.backendUrl}user`, this.headers)
+            .map(response => response.json())
+            .catch(ServiceUtil.handleError);
+    }
 
 }
