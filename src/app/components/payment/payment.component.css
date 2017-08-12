@@ -3,10 +3,18 @@
     margin-bottom: 0.5em;
 }
 
+.payment-list .payment-detail {
+
+}
+
 .payment-list .paid {
     background: rgb(200, 255, 200);
 }
 
 .payment-list .unpaid {
     background: rgb(254, 255, 164);
+}
+
+.payment-detail .arrow {
+    height: 50px;
 }

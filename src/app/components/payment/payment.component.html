@@ -3,10 +3,16 @@
     <div class="ui-g-12 payment-detail"
          [ngClass]="{'paid': !payment.isNotPaid, 'unpaid': payment.isNotPaid}"
          *ngFor="let payment of payments.reverse()">
-        <div class="ui-g-3" i18n>De: {{ payment.uFrom.name }}</div>
-        <div class="ui-g-3" i18n>À: {{ payment.uTo.name }}</div>
-        <div class="ui-g-3" i18n>Montant: {{ payment.amount }}</div>
         <div class="ui-g-3">
+            <app-user [user]="payment.uFrom"></app-user>
+        </div>
+        <div class="ui-g-1"><img src="./assets/images/arrow.png" class="arrow"
+                                 alt="Flèche vers la droite"></div>
+        <div class="ui-g-3">
+            <app-user [user]="payment.uTo"></app-user>
+        </div>
+        <div class="ui-g-3" i18n>Montant: {{ payment.amount | number : '1.2-2' }}</div>
+        <div class="ui-g-2">
             <button pButton type="button" (click)="addNewPayment(payment)"
                     i18n-label [label]="payment.isNotPaid ? 'Payer' : 'Déjà payé'"
                     [disabled]="!payment.isNotPaid"></button>

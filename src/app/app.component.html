@@ -1,7 +1,7 @@
 <div id="application">
     <h1 id="app-title" i18n>Gestion des factures</h1>
     <app-user-dropdown #usersDropdown [users]="users"></app-user-dropdown>
-    <app-payment [payments]="payments" [bills]="bills"
+    <app-payment *ngIf="payments.length > 0" [payments]="payments" [bills]="bills"
                  (paymentAdded)="onPaymentAdded($event)"></app-payment>
     <div class="ui-g grid">
         <div class="ui-g-12 grid-header">

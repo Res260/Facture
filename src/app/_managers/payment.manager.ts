@@ -26,10 +26,8 @@ export class PaymentManager {
         const paymentsToDo: Array<Payment> =
                   this.getPaymentsToDo(bills, this.getAlreadyPaidPayments(payments))
                       .map(payment => {
-                          payment.uFrom = this.userManager.getUserFromId(payment.userFrom,
-                                                                         users);
-                          payment.uTo   = this.userManager.getUserFromId(payment.userTo,
-                                                                         users);
+                          payment.uFrom = this.userManager.getUserFromId(payment.userFrom, users);
+                          payment.uTo   = this.userManager.getUserFromId(payment.userTo, users);
                           return payment;
                       });
 
@@ -153,7 +151,7 @@ export class PaymentManager {
      */
     private getNewBalanceUserTo(userToBalance: number, userFromBalance: number): number {
         let newBalanceUserTo: number = userToBalance + userFromBalance;
-        if (Math.abs(newBalanceUserTo) - 0.001 < 0) {
+        if (Math.abs(newBalanceUserTo) - 0.009 < 0) {
             newBalanceUserTo = 0;
         }
         return newBalanceUserTo;
@@ -227,11 +225,29 @@ export class PaymentManager {
                 balances.set(userId, -separatedTotal);
             }
         });
+        this.takeAlreadyPaidPaymentsInConsideration(alreadyPaidPayments, balances);
+        return balances;
+    }
+
+    /**
+     * Adjust the balance for each payment in the list.
+     * Ex: If Emilio has a balance of +20 and Alex has a balance of -20 but Emilio did a payment of 5$ to Alex,
+     *     the resulting balance will be +15$ for Emilio and -15$ for Alex.
+     * @param {Array<Payment>} alreadyPaidPayments The list of payments to take into consideration.
+     * @param {Map<number, number>} balances The balances to be updated.
+     */
+    private takeAlreadyPaidPaymentsInConsideration(alreadyPaidPayments: Array<Payment>,
+                                                   balances: Map<number, number>): void {
         alreadyPaidPayments.forEach(payment => {
             balances.set(payment.userFrom, balances.get(payment.userFrom) + payment.amount);
             balances.set(payment.userTo, balances.get(payment.userTo) - payment.amount);
+            if (Math.abs(balances.get(payment.userFrom)) - 0.005 < 0) {
+                balances.set(payment.userFrom, 0);
+            }
+            if (Math.abs(balances.get(payment.userTo)) - 0.005 < 0) {
+                balances.set(payment.userTo, 0);
+            }
         });
-        return balances;
     }
 
     /**
