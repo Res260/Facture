@@ -7,6 +7,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ButtonModule, CheckboxModule, DropdownModule, InputTextModule, SpinnerModule} from 'primeng/primeng';
 import {BillManager} from './_managers/bill.manager';
 import {PaymentManager} from './_managers/payment.manager';
+import {UserManager} from './_managers/user.manager';
 import {BillService} from './_services/bill.service';
 import {PaymentService} from './_services/payment.service';
 import {UserService} from './_services/user.service';
@@ -42,7 +43,8 @@ import {UserComponent} from './components/user/user.component';
 
                   // Managers
                   BillManager,
-                  PaymentManager
+                  PaymentManager,
+                  UserManager
               ],
               bootstrap: [AppComponent]
           })

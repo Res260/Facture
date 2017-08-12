@@ -3,6 +3,7 @@ import {Bill} from '../_models/bill';
 import {BillPart} from '../_models/bill-part';
 import {Payment} from '../_models/payment';
 import {User} from '../_models/user';
+import {UserManager} from './user.manager';
 
 /**
  * Manager for payment-specific business logic.
@@ -10,7 +11,7 @@ import {User} from '../_models/user';
 @Injectable()
 export class PaymentManager {
 
-    constructor() {
+    constructor(private userManager: UserManager) {
     }
 
     /**
@@ -18,12 +19,22 @@ export class PaymentManager {
      * the end of the list.
      * @param {Array<Payment>} payments The list of payments to update.
      * @param bills The list of bills needed to update the payments.
-     * @returns {Array<Payment>}
+     * @param users The list of users needed to transform user ids to actual {@link User}.
+     * @returns {Array<Payment>} The updated payment list with payments to do and already paid payments.
      */
-    public updatePayments(payments: Array<Payment>, bills: Array<Bill>): Array<Payment> {
+    public updatePayments(payments: Array<Payment>, bills: Array<Bill>, users: Array<User>): Array<Payment> {
+        const paymentsToDo: Array<Payment> =
+                  this.getPaymentsToDo(bills, this.getAlreadyPaidPayments(payments))
+                      .map(payment => {
+                          payment.uFrom = this.userManager.getUserFromId(payment.userFrom,
+                                                                         users);
+                          payment.uTo   = this.userManager.getUserFromId(payment.userTo,
+                                                                         users);
+                          return payment;
+                      });
+
         return this.getAlreadyPaidPayments(payments)
-            .concat(this.getPaymentsToDo(bills,
-                                         this.getAlreadyPaidPayments(payments)));
+                   .concat(paymentsToDo);
     }
 
     /**
@@ -57,9 +68,9 @@ export class PaymentManager {
      * @returns {boolean} True if one balance is not zero.
      */
     private hasOneDifferentThanZero(balances: Map<number, number>): boolean {
-        let hasOneDifferentThanZero: boolean = false;
+        let hasOneDifferentThanZero: boolean     = false;
         const iterator: IterableIterator<number> = balances.values();
-        let balance: IteratorResult<number> = iterator.next();
+        let balance: IteratorResult<number>      = iterator.next();
         while (!hasOneDifferentThanZero && !balance.done) {
             if (balance.value !== 0) {
                 hasOneDifferentThanZero = true;
@@ -78,7 +89,7 @@ export class PaymentManager {
      * @returns {Map<number, number>} A map with a user id as key and balance (positive or negative) as value.
      */
     private getBalances(bills: Array<Bill>, alreadyPaidPayments: Array<Payment>): Map<number, number> {
-        const totalPaidByUser: Map<number, number> = this.getTotalPaidByUser(bills);
+        const totalPaidByUser: Map<number, number>       = this.getTotalPaidByUser(bills);
         const separatedTotalsByUser: Map<number, number> = this.getSeparatedTotals(bills);
         return this.calculateBalances(totalPaidByUser, separatedTotalsByUser, alreadyPaidPayments);
     }
@@ -89,10 +100,10 @@ export class PaymentManager {
      * @param {Array<Payment>} paymentsToDo The list of payments to do
      */
     private addPayments(balances: Map<number, number>, paymentsToDo: Array<Payment>): void {
-        const userWithBiggestBalance: number = this.getUserWithBiggestBalance(balances);
-        const isBiggestBalancePositive: boolean = balances.get(userWithBiggestBalance) >= 0;
-        const balancesOppositeSign: Map<number, number> = this.getBalancesOfOneSign(balances,
-                                                                                    !isBiggestBalancePositive);
+        const userWithBiggestBalance: number             = this.getUserWithBiggestBalance(balances);
+        const isBiggestBalancePositive: boolean          = balances.get(userWithBiggestBalance) >= 0;
+        const balancesOppositeSign: Map<number, number>  = this.getBalancesOfOneSign(balances,
+                                                                                     !isBiggestBalancePositive);
         const userWithBiggestBalanceOppositeSign: number = this.getUserWithBiggestBalance(balancesOppositeSign);
         if (isBiggestBalancePositive) {
             this.addSinglePayment(userWithBiggestBalanceOppositeSign, userWithBiggestBalance, balances, paymentsToDo);
@@ -128,7 +139,7 @@ export class PaymentManager {
     private addSinglePayment(userFromId: number, userToId: number,
                              balances: Map<number, number>, payments: Array<Payment>): void {
         const userFromBalance: number = balances.get(userFromId);
-        const userToBalance: number = balances.get(userToId);
+        const userToBalance: number   = balances.get(userToId);
         payments.push(new Payment(userFromId, userToId, -userFromBalance));
         balances.set(userToId, this.getNewBalanceUserTo(userToBalance, userFromBalance));
         balances.set(userFromId, 0);

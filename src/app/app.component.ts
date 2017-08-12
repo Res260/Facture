@@ -10,9 +10,9 @@ import {UserService} from './_services/user.service';
 import {UsersDropdownComponent} from './components/user-dropdown/users-dropdown.component';
 
 @Component({
-               selector: 'app-root',
+               selector:    'app-root',
                templateUrl: './app.component.html',
-               styleUrls: ['./app.component.css']
+               styleUrls:   ['./app.component.css']
            })
 export class AppComponent implements OnInit {
 
@@ -20,8 +20,8 @@ export class AppComponent implements OnInit {
     protected usersDropdownComponent: UsersDropdownComponent;
 
     protected payments: Array<Payment> = [];
-    protected bills: Array<Bill> = [];
-    protected newBill: Bill = new Bill();
+    protected bills: Array<Bill>       = [];
+    protected newBill: Bill            = new Bill();
     protected newBillPartUsers: Array<User>;
     protected users: Array<User>;
 
@@ -39,8 +39,8 @@ export class AppComponent implements OnInit {
         this.userService.getAll().subscribe(users => this.users = users);
         this.paymentService.getAll().subscribe(payments => {
             this.billService.getAll().subscribe(bills => {
-                this.bills = bills;
-                this.payments = this.paymentManager.updatePayments(this.payments, this.bills);
+                this.bills    = bills;
+                this.payments = this.paymentManager.updatePayments(this.payments, this.bills, this.users);
             });
             this.payments = this.payments.concat(payments).reverse();
         });
@@ -55,10 +55,10 @@ export class AppComponent implements OnInit {
         this.newBill.user = this.usersDropdownComponent.selectedUser;
         this.billService.createBill(this.newBill).subscribe(
             bill => {
-                this.bills = [...this.bills, bill];
-                this.newBill = new Bill();
+                this.bills            = [...this.bills, bill];
+                this.newBill          = new Bill();
                 this.newBillPartUsers = [];
-                this.payments = this.paymentManager.updatePayments(this.payments, this.bills);
+                this.payments         = this.paymentManager.updatePayments(this.payments, this.bills, this.users);
             }
         );
     }
@@ -67,6 +67,6 @@ export class AppComponent implements OnInit {
      * Updates the list of payments.
      */
     protected onPaymentAdded(): void {
-        this.payments = this.paymentManager.updatePayments(this.payments, this.bills);
+        this.payments = this.paymentManager.updatePayments(this.payments, this.bills, this.users);
     }
 }
