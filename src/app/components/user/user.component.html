@@ -3,5 +3,5 @@
         <img class="user-image" [src]="user.profilePicUrl" [title]="user.name"
              [alt]="user.name + ' photo de profil'"/>
     </div>
-    <span class="user-name" *ngIf="displayName">{{ user.name }}</span>
+    <span class="user-name not-mobile" *ngIf="displayName">{{ user.name }}</span>
 </div>

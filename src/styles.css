@@ -28,6 +28,31 @@
     opacity: 0.5;
 }
 
+/* === RESPONSIVE-SPECIFIC === */
+
+/* small */
+@media (max-width: 40em) {
+    .not-mobile {
+        display: none;
+    }
+
+    .no-flex-mobile {
+        display: initial;
+    }
+}
+
+/* medium */
+@media (min-width: 40.0063em) {
+}
+
+/* large */
+@media (min-width: 64.063em) {
+}
+
+/* xtra-large */
+@media (min-width: 90.063em) {
+}
+
 /* === GLOBAL STYLE === */
 
 html {

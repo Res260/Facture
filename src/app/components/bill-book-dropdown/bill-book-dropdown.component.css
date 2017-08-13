@@ -12,3 +12,8 @@
     flex-grow: 1;
     align-self: center;
 }
+
+.bill-book-title {
+    display: inline-block;
+    max-width: 35.5vw;
+}

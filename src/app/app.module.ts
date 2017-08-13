@@ -1,3 +1,4 @@
+import {AppShellModule} from '@angular/app-shell';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
@@ -31,7 +32,8 @@ import {UserComponent} from './components/user/user.component';
                   AmountComponent,
                   BillBookDropdownComponent
               ],
-              imports: [
+              imports:      [
+                  AppShellModule.runtime(),
                   BrowserModule,
                   HttpModule,
                   FormsModule,
@@ -42,7 +44,7 @@ import {UserComponent} from './components/user/user.component';
                   CheckboxModule,
                   BrowserAnimationsModule
               ],
-              providers: [
+              providers:    [
                   // Services
                   BillService,
                   BillBookService,
@@ -54,7 +56,7 @@ import {UserComponent} from './components/user/user.component';
                   PaymentManager,
                   UserManager
               ],
-              bootstrap: [AppComponent]
+              bootstrap:    [AppComponent]
           })
 export class AppModule {
 }
