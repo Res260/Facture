@@ -1,0 +1,14 @@
+.bill-book-dropdown {
+    display: flex;
+    flex-direction: row;
+}
+
+.bill-book-dropdown h2 {
+    flex-basis: auto;
+    padding-right: 0.5em;
+}
+
+.bill-book-dropdown p-dropdown {
+    flex-grow: 1;
+    align-self: center;
+}

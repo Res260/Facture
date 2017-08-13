@@ -19,16 +19,6 @@ export class BillService {
     }
 
     /**
-     * Fetches all bills.
-     * @returns {Observable<Array<Bill>>} The observable which resolves to an array of {@link Bill}.
-     */
-    public getAll(): Observable<Array<Bill>> {
-        return this.http.get(`${environment.backendUrl}bill`, this.headers)
-                   .map(response => response.json())
-                   .catch(ServiceUtil.handleError);
-    }
-
-    /**
      * Saves a new bill in the server.
      * @param {Bill} newBill The bill to be persisted.
      * @returns {Observable<Bill>} The observable of the request.

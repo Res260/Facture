@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Bill} from '../../_models/bill';
+import {BillBook} from '../../_models/bill-book';
 import {Payment} from '../../_models/payment';
 import {PaymentService} from '../../_services/payment.service';
 
@@ -12,8 +13,12 @@ export class PaymentComponent implements OnInit, OnChanges {
 
     @Input()
     protected bills: Array<Bill>;
+
     @Input()
     protected payments: Array<Payment>;
+
+    @Input()
+    protected selectedBillBook: BillBook;
 
     /**
      * Emitted when a payment has been added.
@@ -53,6 +58,7 @@ export class PaymentComponent implements OnInit, OnChanges {
      * @param {Payment} newPayment The payment to persist.
      */
     private addNewPayment(newPayment: Payment): void {
+        newPayment.billBookId = this.selectedBillBook.id;
         this.paymentService.createPayment(newPayment).subscribe(payment => {
             this.payments.push(payment);
             this.paymentAdded.emit();

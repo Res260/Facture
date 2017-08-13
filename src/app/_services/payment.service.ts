@@ -19,16 +19,6 @@ export class PaymentService {
     }
 
     /**
-     * Fetches all payments.
-     * @returns {Observable<Array<Payment>>} The observable which resolves to an array of {@link Payment}.
-     */
-    public getAll(): Observable<Array<Payment>> {
-        return this.http.get(`${environment.backendUrl}payment`, this.headers)
-                   .map(response => response.json())
-                   .catch(ServiceUtil.handleError);
-    }
-
-    /**
      * Saves a new payment in the server.
      * @param {Payment} newPayment The payment to be persisted.
      * @returns {Observable<Payment>} The observable of the request.

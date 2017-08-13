@@ -1,39 +1,38 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {User} from '../../_models/user';
 import {DropdownElement} from '../../_models/dropdown-element';
+import {User} from '../../_models/user';
 
 /**
  * Component to choose from a list of users.
  */
 @Component({
-	selector: 'app-user-dropdown',
-	templateUrl: './users-dropdown.component.html',
-	styleUrls: ['./users-dropdown.component.css']
-})
+               selector:    'app-user-dropdown',
+               templateUrl: './users-dropdown.component.html',
+               styleUrls:   ['./users-dropdown.component.css']
+           })
 export class UsersDropdownComponent implements OnInit, OnChanges {
 
-	@Input()
-	public users: Array<User>;
+    @Input()
+    public users: Array<User>;
 
-	public selectedUser: User;
+    public selectedUser: User;
 
-	protected dropdownUsers: Array<DropdownElement<User>>;
+    protected dropdownUsers: Array<DropdownElement<User>>;
 
+    constructor() {
+    }
 
-	constructor() {
-	}
+    /**
+     * Fetches all users asynchronously.
+     */
+    public ngOnInit(): void {
+    }
 
-	/**
-	 * Fetches all users asynchronously.
-	 */
-	public ngOnInit() {
-	}
-
-	public ngOnChanges(changes: SimpleChanges): void {
-		if (changes['users'] && changes['users'].currentValue) {
-			this.dropdownUsers = changes['users'].currentValue.map(user => new DropdownElement(user.name, user));
-			this.selectedUser = this.dropdownUsers[0].value;
-		}
-	}
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes['users'] && changes['users'].currentValue) {
+            this.dropdownUsers = changes['users'].currentValue.map(user => new DropdownElement(user.name, user));
+            this.selectedUser  = this.dropdownUsers[0].value;
+        }
+    }
 
 }

@@ -11,6 +11,7 @@ export class Payment {
     public uTo: User;
     public amount: number;
     public isNotPaid: boolean = true;
+    public billBookId: number;
 
     constructor(userFrom: number, userTo: number, amount: number) {
         this.userFrom = userFrom;

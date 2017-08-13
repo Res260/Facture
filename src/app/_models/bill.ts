@@ -10,5 +10,6 @@ export class Bill {
     public totalPrice: number;
     public title: string;
     public parts: Array<BillPart> = [];
+    public billBookId: number;
 
 }
