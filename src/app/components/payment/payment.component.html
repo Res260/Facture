@@ -10,7 +10,7 @@
             <app-user [user]="payment.uTo"></app-user>
         </div>
         <div class="ui-g-2">
-            <span class="amount">{{ payment.amount | number : '1.2-2' }}$</span>
+            <app-amount [amount]="payment.amount"></app-amount>
         </div>
         <div class="ui-g-2">
             <button pButton type="button" (click)="addNewPayment(payment)"

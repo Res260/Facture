@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Bill} from '../../_models/bill';
 import {BillPart} from '../../_models/bill-part';
 import {User} from '../../_models/user';
+import {BillService} from '../../_services/bill.service';
 
 /**
  * Component showing a list of bills and a form to add a bill.
@@ -26,6 +27,18 @@ export class BillsComponent implements OnInit {
     protected users: Array<User>;
 
     /**
+     * Emitted when a bill must be created.
+     */
+    @Output()
+    protected onAddNewBill: EventEmitter<{ bill: Bill, users: Array<User> }> = new EventEmitter();
+
+    /**
+     * Emitted when a bill has been deleted.
+     */
+    @Output()
+    protected onDeleteBill: EventEmitter<void> = new EventEmitter<void>();
+
+    /**
      * A new bill that the user can populate its information.
      */
     protected newBill: Bill = new Bill();
@@ -35,22 +48,31 @@ export class BillsComponent implements OnInit {
      */
     protected newBillPartUsers: Array<User> = [];
 
-    /**
-     * Emitted when a bill must be created.
-     */
-    @Output()
-    protected onAddNewBill: EventEmitter<{ bill: Bill, users: Array<User> }> = new EventEmitter();
-
-    constructor() {
+    constructor(private billService: BillService) {
     }
 
     public ngOnInit(): void {
     }
 
+    /**
+     * Emits an event to create a new bill. Then, reset the newBill and newBillPartUsers variables.
+     */
     protected addNewBill(): void {
         this.onAddNewBill.emit({bill: this.newBill, users: this.newBillPartUsers});
         this.newBill          = new Bill();
         this.newBillPartUsers = [];
+    }
+
+    /**
+     * Asks the server to delete a bill. Once done, remove it from the list of bills.
+     * @param {Bill} bill The bill to remove.
+     */
+    protected deleteBill(bill: Bill): void {
+        this.billService.deleteBill(bill.id).subscribe(() => {
+            const billIndex: number = this.bills.indexOf(bill);
+            this.bills.splice(billIndex, 1);
+            this.onDeleteBill.emit();
+        });
     }
 
     /**

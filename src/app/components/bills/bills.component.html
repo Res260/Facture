@@ -1,3 +1,4 @@
+<h2 i18n>Ajouter une facture:</h2>
 <div class="ui-g-12 grid-add flex-row">
     <div class="ui-g-4">
         <input pInputText i18n-placeholder class="full-width"
@@ -14,7 +15,8 @@
                         [(ngModel)]="newBillPartUsers"></p-checkbox>
         </div>
     </div>
-    <div class="ui-g-2">
+    <div class="ui-g-1"></div>
+    <div class="ui-g-1">
         <button pButton type="button" (click)="addNewBill()" i18n-label
                 label="Ajouter"></button>
     </div>
@@ -37,6 +39,13 @@
                 <app-user [user]="billPart.user" [displayName]="false"></app-user>
             </div>
         </div>
-        <div class="ui-g-2">{{ bill.totalPrice }}$</div>
+        <div class="ui-g-1">
+            <app-amount [amount]="bill.totalPrice"></app-amount>
+        </div>
+        <div class="ui-g-1">
+            <button pButton type="button" (click)="deleteBill(bill)" class="ui-button-danger"
+                    i18n-label
+                    label="Supprimer"></button>
+        </div>
     </div>
 </div>

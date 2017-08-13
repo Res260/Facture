@@ -25,8 +25,3 @@
     height: 50px;
     flex-basis: auto;
 }
-
-.payment-detail .amount {
-    font-size: 110%;
-    font-weight: bold;
-}

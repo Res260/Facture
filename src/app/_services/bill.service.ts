@@ -24,8 +24,8 @@ export class BillService {
      */
     public getAll(): Observable<Array<Bill>> {
         return this.http.get(`${environment.backendUrl}bill`, this.headers)
-            .map(response => response.json())
-            .catch(ServiceUtil.handleError);
+                   .map(response => response.json())
+                   .catch(ServiceUtil.handleError);
     }
 
     /**
@@ -35,8 +35,18 @@ export class BillService {
      */
     public createBill(newBill: Bill): Observable<Bill> {
         return this.http.post(`${environment.backendUrl}bill`, newBill, this.headers)
-            .map(response => response.json())
-            .catch(ServiceUtil.handleError);
+                   .map(response => response.json())
+                   .catch(ServiceUtil.handleError);
+    }
+
+    /**
+     * Send a request to delete a bill
+     * @param {number} id The id of the bill to delete.
+     * @returns {Observable<string>} The observable of the request.
+     */
+    public deleteBill(id: number): Observable<string> {
+        return this.http.delete(`${environment.backendUrl}bill/${id}`)
+                   .catch(ServiceUtil.handleError);
     }
 
 }

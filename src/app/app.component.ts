@@ -63,7 +63,7 @@ export class AppComponent implements OnInit {
     /**
      * Updates the list of payments.
      */
-    protected onPaymentAdded(): void {
+    protected updatePaymentList(): void {
         this.payments = this.paymentManager.updatePayments(this.payments, this.bills, this.users);
     }
 }
