@@ -11,6 +11,9 @@ import {PaymentService} from '../../_services/payment.service';
            })
 export class PaymentComponent implements OnInit, OnChanges {
 
+    protected readonly PAID: string   = 'paid';
+    protected readonly UNPAID: string = 'unpaid';
+
     @Input()
     protected bills: Array<Bill>;
 
@@ -32,6 +35,8 @@ export class PaymentComponent implements OnInit, OnChanges {
     @Output()
     protected paymentDeleted: EventEmitter<void> = new EventEmitter<void>();
 
+    protected paymentTypesToDisplay: Array<string> = [this.UNPAID, this.PAID];
+
     constructor(private paymentService: PaymentService) {
     }
 
@@ -39,6 +44,21 @@ export class PaymentComponent implements OnInit, OnChanges {
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
+    }
+
+    protected getPaymentsToDisplay(): Array<Payment> {
+        let paymentsToDisplay: Array<Payment> = [];
+        if (this.paymentTypesToDisplay.length === 2) {
+            paymentsToDisplay = this.payments.reverse();
+        } else {
+            if (this.paymentTypesToDisplay.includes(this.PAID)) {
+                paymentsToDisplay = this.payments.filter(payment => !payment.isNotPaid);
+            }
+            if (this.paymentTypesToDisplay.includes(this.UNPAID)) {
+                paymentsToDisplay = this.payments.filter(payment => payment.isNotPaid);
+            }
+        }
+        return paymentsToDisplay;
     }
 
     /**

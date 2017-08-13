@@ -1,52 +1,57 @@
 <h2 i18n>Ajouter une facture:</h2>
-<div class="ui-g-12 grid-add flex-row">
-    <div class="ui-g-4">
+<div class="ui-g grid-add flex-row no-flex-mobile">
+    <div class="ui-sm-6 ui-g-4">
         <input pInputText i18n-placeholder class="full-width"
                placeholder="Nouvelle facture..."
                [(ngModel)]="newBill.title"/>
     </div>
-    <div class="ui-g-2">
-        <p-spinner [(ngModel)]="newBill.totalPrice" [min]="0" [size]="10" i18n-placeholder
+    <div class="ui-sm-6 ui-g-3">
+        <p-spinner [(ngModel)]="newBill.totalPrice" [min]="0" [size]="13" i18n-placeholder
                    [placeholder]="'Prix payé'" class="full-width"></p-spinner>
     </div>
-    <div class="ui-g-4">
-        <div *ngFor="let user of users">
+    <div class="ui-sm-12 ui-g-3">
+        <div *ngFor="let user of users" class="ui-sm-6 ui-g-12 ui-g-nopad">
             <p-checkbox [value]="user" [label]="user.name"
                         [(ngModel)]="newBillPartUsers"></p-checkbox>
         </div>
     </div>
-    <div class="ui-g-1"></div>
-    <div class="ui-g-1">
-        <button pButton type="button" (click)="addNewBill()" i18n-label
+    <div class="ui-sm-12 ui-g-2 flex-col">
+        <button pButton type="button" (click)="addNewBill()" class="full-width" i18n-label
                 label="Ajouter"></button>
     </div>
 </div>
 <h2 i18n>Liste des factures:</h2>
 <div class="ui-g grid">
-    <div class="ui-g-12 grid-header">
-        <div class="ui-g-3" i18n>Payé par:</div>
-        <div class="ui-g-3" i18n>Titre:</div>
-        <div class="ui-g-4" i18n>Séparé avec:</div>
-        <div class="ui-g-2" i18n>Prix payé:</div>
-    </div>
-    <div class="ui-g-12 grid-entry flex-row" *ngFor="let bill of bills.reverse()">
-        <div class="ui-g-3">
-            <app-user [user]="bill.user"></app-user>
+    <div class="ui-g-12 grid-header text-center-mobile">
+        <div class="ui-sm-12 ui-g-8 ui-g-nopad">
+            <div class="ui-sm-4 ui-g-4" i18n>Payé par</div>
+            <div class="ui-sm-4 ui-g-4" i18n>Titre</div>
+            <div class="ui-sm-4 ui-g-4" i18n>Prix payé</div>
         </div>
-        <div class="ui-g-3">{{ bill.title }}</div>
-        <div class="ui-g-4">
-            <div *ngFor="let billPart of bill.parts.sort(billPartSortCondition)"
-                 class="inline-block">
-                <app-user [user]="billPart.user" [displayName]="false"></app-user>
+        <div class="ui-sm-12 ui-g-4" i18n>Séparé avec</div>
+    </div>
+    <div class="ui-g-12 grid-entry flex-row no-flex-mobile" *ngFor="let bill of bills.reverse()">
+        <div class="ui-sm-12 ui-g-8 flex-row text-center-mobile ui-g-nopad">
+            <div class="ui-sm-4 ui-g-4 flex-col-mobile">
+                <app-user [user]="bill.user"></app-user>
+            </div>
+            <div class="ui-sm-4 ui-g-4">{{ bill.title }}</div>
+            <div class="ui-sm-4 ui-g-4">
+                <app-amount [amount]="bill.totalPrice"></app-amount>
             </div>
         </div>
-        <div class="ui-g-1">
-            <app-amount [amount]="bill.totalPrice"></app-amount>
+        <div class="ui-sm-12 ui-g-3 flex-col-mobile">
+            <div>
+                <div *ngFor="let billPart of bill.parts.sort(billPartSortCondition)"
+                     class="inline-block">
+                    <app-user [user]="billPart.user" [displayName]="false"></app-user>
+                </div>
+            </div>
         </div>
-        <div class="ui-g-1">
-            <button pButton type="button" (click)="deleteBill(bill)" class="ui-button-danger"
-                    i18n-label
-                    label="Supprimer"></button>
+        <div class="ui-sm-12 ui-g-1">
+            <button pButton type="button" (click)="deleteBill(bill)"
+                    class="ui-button-danger full-width"
+                    i18n-label label="Supprimer"></button>
         </div>
     </div>
 </div>

@@ -1,3 +1,11 @@
+.payments-title {
+    margin-right: 0.2em;
+}
+
+.first-checkbox {
+    margin-right: 0.3em;
+}
+
 .payment-list {
     border: 2px solid black;
     margin-bottom: 0.5em;
