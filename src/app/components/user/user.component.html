@@ -1,7 +1,7 @@
 <div class="user-detail">
     <div class="user-image-container">
-        <img class="user-image" src="{{ user.profilePicUrl}}"
-             alt="{{ user.name }} photo de profil"/>
+        <img class="user-image" [src]="user.profilePicUrl" [title]="user.name"
+             [alt]="user.name + ' photo de profil'"/>
     </div>
-    <span class="user-name">{{ user.name }}</span>
+    <span class="user-name" *ngIf="displayName">{{ user.name }}</span>
 </div>

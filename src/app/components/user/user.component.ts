@@ -11,6 +11,9 @@ export class UserComponent implements OnInit {
     @Input()
     protected user: User;
 
+    @Input()
+    protected displayName: boolean = true;
+
     constructor() {
     }
 
