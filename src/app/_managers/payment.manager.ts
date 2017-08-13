@@ -244,8 +244,8 @@ export class PaymentManager {
     private takeAlreadyPaidPaymentsInConsideration(alreadyPaidPayments: Array<Payment>,
                                                    balances: Map<number, number>): void {
         alreadyPaidPayments.forEach(payment => {
-            balances.set(payment.userFrom, balances.get(payment.userFrom) + payment.amount);
-            balances.set(payment.userTo, balances.get(payment.userTo) - payment.amount);
+            balances.set(payment.userFrom, (balances.get(payment.userFrom) || 0) + payment.amount);
+            balances.set(payment.userTo, (balances.get(payment.userTo) || 0) - payment.amount);
             if (Math.abs(balances.get(payment.userFrom)) - 0.005 < 0) {
                 balances.set(payment.userFrom, 0);
             }

@@ -12,10 +12,12 @@
         <div class="ui-g-2">
             <app-amount [amount]="payment.amount"></app-amount>
         </div>
-        <div class="ui-g-2">
-            <button pButton type="button" (click)="addNewPayment(payment)"
-                    i18n-label [label]="payment.isNotPaid ? 'Payer' : 'Déjà payé'"
-                    [disabled]="!payment.isNotPaid"></button>
+        <div class="ui-g-1"></div>
+        <div class="ui-g-1">
+            <button pButton type="button" (click)="addNewPaymentOrDeleteExistingPayment(payment)"
+                    class="pay-button"
+                    i18n-label [label]="payment.isNotPaid ? 'Payer' : 'Supprimer'"
+                    [ngClass]="{'ui-button-danger': !payment.isNotPaid}"></button>
         </div>
     </div>
 </div>

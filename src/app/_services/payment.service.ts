@@ -24,8 +24,8 @@ export class PaymentService {
      */
     public getAll(): Observable<Array<Payment>> {
         return this.http.get(`${environment.backendUrl}payment`, this.headers)
-            .map(response => response.json())
-            .catch(ServiceUtil.handleError);
+                   .map(response => response.json())
+                   .catch(ServiceUtil.handleError);
     }
 
     /**
@@ -35,8 +35,18 @@ export class PaymentService {
      */
     public createPayment(newPayment: Payment): Observable<Payment> {
         return this.http.post(`${environment.backendUrl}payment`, newPayment, this.headers)
-            .map(response => response.json())
-            .catch(ServiceUtil.handleError);
+                   .map(response => response.json())
+                   .catch(ServiceUtil.handleError);
+    }
+
+    /**
+     * Delete a new payment from the server.
+     * @param {Payment} id The payment to be deleted's id.
+     * @returns {Observable<Payment>} The observable of the request.
+     */
+    public deletePayment(id: number): Observable<Payment> {
+        return this.http.delete(`${environment.backendUrl}payment/${id}`, this.headers)
+                   .catch(ServiceUtil.handleError);
     }
 
 }

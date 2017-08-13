@@ -2,7 +2,8 @@
     <h1 id="app-title" i18n>Gestion des factures</h1>
     <app-user-dropdown #usersDropdown [users]="users"></app-user-dropdown>
     <app-payment *ngIf="payments.length > 0" [payments]="payments" [bills]="bills"
-                 (paymentAdded)="updatePaymentList($event)"></app-payment>
+                 (paymentAdded)="updatePaymentList($event)"
+                 (paymentDeleted)="updatePaymentList()"></app-payment>
     <app-bills [bills]="bills" [users]="users"
                (onAddNewBill)="addNewBill($event)" (onDeleteBill)="updatePaymentList()"></app-bills>
 </div>
