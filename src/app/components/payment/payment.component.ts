@@ -1,7 +1,9 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {PaymentSettings} from '../../_models/_settings/payment-settings';
 import {Bill} from '../../_models/bill';
 import {BillBook} from '../../_models/bill-book';
 import {Payment} from '../../_models/payment';
+import {LocalStorageService} from '../../_services/local-storage.service';
 import {PaymentService} from '../../_services/payment.service';
 
 @Component({
@@ -37,15 +39,25 @@ export class PaymentComponent implements OnInit, OnChanges {
 
     protected paymentTypesToDisplay: Array<string> = [this.UNPAID, this.PAID];
 
-    constructor(private paymentService: PaymentService) {
+    private paymentSettings: Object;
+
+    constructor(private paymentService: PaymentService,
+                private localStorageService: LocalStorageService) {
     }
 
+    /**
+     * Initializes the settings for the component.
+     */
     public ngOnInit(): void {
+        this.paymentSettings = this.localStorageService.get(PaymentSettings);
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
     }
 
+    /**
+     * @returns {Array<Payment>} The array of payments to display depending on the selected boxes of the filters.
+     */
     protected getPaymentsToDisplay(): Array<Payment> {
         let paymentsToDisplay: Array<Payment> = [];
         if (this.paymentTypesToDisplay.length === 2) {

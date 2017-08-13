@@ -11,6 +11,7 @@ import {PaymentManager} from './_managers/payment.manager';
 import {UserManager} from './_managers/user.manager';
 import {BillBookService} from './_services/bill-book.service';
 import {BillService} from './_services/bill.service';
+import {LocalStorageService} from './_services/local-storage.service';
 import {PaymentService} from './_services/payment.service';
 import {UserService} from './_services/user.service';
 
@@ -50,6 +51,7 @@ import {UserComponent} from './components/user/user.component';
                   BillBookService,
                   PaymentService,
                   UserService,
+                  LocalStorageService,
 
                   // Managers
                   BillManager,
