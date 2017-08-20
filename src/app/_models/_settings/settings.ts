@@ -1,6 +1,7 @@
 /**
- * Model for payment settings stored in local storage.
+ * Model for any settings stored in local storage. All it needs is
+ * a key to get it back.
  */
-export class Settings {
-    public static key: string = 'payment';
+export abstract class Settings {
+    public abstract key: string;
 }

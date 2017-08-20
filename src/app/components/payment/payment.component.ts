@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {PaymentSettings} from '../../_models/_settings/payment-settings';
 import {Bill} from '../../_models/bill';
 import {BillBook} from '../../_models/bill-book';
@@ -11,11 +11,10 @@ import {PaymentService} from '../../_services/payment.service';
                templateUrl: './payment.component.html',
                styleUrls:   ['./payment.component.css']
            })
-export class PaymentComponent implements OnInit, OnChanges {
+export class PaymentComponent implements OnInit {
+    protected readonly PAID: string = 'paid';
 
-    protected readonly PAID: string   = 'paid';
     protected readonly UNPAID: string = 'unpaid';
-
     @Input()
     protected bills: Array<Bill>;
 
@@ -37,9 +36,7 @@ export class PaymentComponent implements OnInit, OnChanges {
     @Output()
     protected paymentDeleted: EventEmitter<void> = new EventEmitter<void>();
 
-    protected paymentTypesToDisplay: Array<string> = [this.UNPAID, this.PAID];
-
-    private paymentSettings: Object;
+    protected paymentSettings: PaymentSettings;
 
     constructor(private paymentService: PaymentService,
                 private localStorageService: LocalStorageService) {
@@ -49,10 +46,14 @@ export class PaymentComponent implements OnInit, OnChanges {
      * Initializes the settings for the component.
      */
     public ngOnInit(): void {
-        this.paymentSettings = this.localStorageService.get(PaymentSettings);
+        this.paymentSettings = this.localStorageService.get<PaymentSettings>(PaymentSettings);
     }
 
-    public ngOnChanges(changes: SimpleChanges): void {
+    /**
+     * Saves the payment settings in local storage.
+     */
+    protected savePayments(): void {
+        this.localStorageService.set(this.paymentSettings);
     }
 
     /**
@@ -60,14 +61,14 @@ export class PaymentComponent implements OnInit, OnChanges {
      */
     protected getPaymentsToDisplay(): Array<Payment> {
         let paymentsToDisplay: Array<Payment> = [];
-        if (this.paymentTypesToDisplay.length === 2) {
+        if (this.paymentSettings.paymentTypesToDisplay.length === 2) {
             paymentsToDisplay = this.payments.reverse();
         } else {
-            if (this.paymentTypesToDisplay.includes(this.PAID)) {
-                paymentsToDisplay = this.payments.filter(payment => !payment.isNotPaid);
+            if (this.paymentSettings.paymentTypesToDisplay.includes(this.PAID)) {
+                paymentsToDisplay = this.payments.filter(payment => !payment.isNotPaid).reverse();
             }
-            if (this.paymentTypesToDisplay.includes(this.UNPAID)) {
-                paymentsToDisplay = this.payments.filter(payment => payment.isNotPaid);
+            if (this.paymentSettings.paymentTypesToDisplay.includes(this.UNPAID)) {
+                paymentsToDisplay = this.payments.filter(payment => payment.isNotPaid).reverse();
             }
         }
         return paymentsToDisplay;

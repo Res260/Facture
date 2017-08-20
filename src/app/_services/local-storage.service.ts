@@ -16,14 +16,21 @@ export class LocalStorageService {
      *                                        PaymentSettings).
      * @returns {T} The object containing the settings data.
      */
-    public get <T extends Settings>(settingsClass: typeof Settings): T {
-        const localStorageSettings: string = localStorage.getItem(settingsClass.key);
-        let newSettings: Settings;
+    public get <T extends Settings>(settingsClass: new () => T): T {
+        const newSettings: Settings        = new settingsClass();
+        const localStorageSettings: string = localStorage.getItem(newSettings.key);
         if (!localStorageSettings) {
-            newSettings = new settingsClass();
-            localStorage.setItem(settingsClass.key, JSON.stringify(newSettings));
+            localStorage.setItem(newSettings.key, JSON.stringify(newSettings));
         }
-        return newSettings || JSON.parse(localStorageSettings);
+        return JSON.parse(localStorageSettings) || newSettings;
+    }
+
+    /**
+     * Saves the provided settings object in the local storage.
+     * @param {Settings} settings The settings object to be saved.
+     */
+    public set (settings: Settings): void {
+        localStorage.setItem(settings.key, JSON.stringify(settings));
     }
 
 }

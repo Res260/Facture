@@ -1,9 +1,10 @@
 <div class="ui-g flex-row">
     <h2 class="inline-block payments-title" i18n>Paiments:</h2>
     <p-checkbox [value]="UNPAID" i18n-label label="Non-payés" class="first-checkbox"
-                [(ngModel)]="paymentTypesToDisplay"></p-checkbox>
-    <p-checkbox [value]="PAID" i18n-label label="Payés"
-                [(ngModel)]="paymentTypesToDisplay"></p-checkbox>
+                (onChange)="savePayments()" [(ngModel)]="paymentSettings.paymentTypesToDisplay">
+    </p-checkbox>
+    <p-checkbox [value]="PAID" i18n-label label="Payés" (onChange)="savePayments()"
+                [(ngModel)]="paymentSettings.paymentTypesToDisplay"></p-checkbox>
 </div>
 <div class="ui-g payment-list">
     <div class="ui-g-12 payment-detail flex-row no-flex-mobile"
