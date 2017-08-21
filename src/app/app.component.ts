@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
     protected addNewBill(billAndUsers: { bill: Bill, users: Array<User> }): void {
         this.billManager.addBillPartsToBillFromUserList(billAndUsers.users, billAndUsers.bill);
         this.billManager.splitBillEvenly(billAndUsers.bill);
-        billAndUsers.bill.user       = this.usersDropdownComponent.selectedUser;
+        billAndUsers.bill.user       = this.usersDropdownComponent.usersDropdownSettings.selectedUser;
         billAndUsers.bill.billBookId = this.selectedBillBook.id;
         this.billService.createBill(billAndUsers.bill).subscribe(
             bill => {

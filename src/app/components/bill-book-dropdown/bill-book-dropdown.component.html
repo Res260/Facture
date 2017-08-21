@@ -2,7 +2,7 @@
     <div class="ui-g-12 ui-g-nopad bill-book-dropdown">
         <h2 class="bill-book-title" i18n>Livre de factures: </h2>
         <p-dropdown [style]="{'width': '100%'}" [options]="dropdownBillBooks"
-                    (onChange)="changeBillBook.emit($event.value)"
-                    [(ngModel)]="selectedBillBook"></p-dropdown>
+                    (onChange)="onChangeBillBook($event)"
+                    [(ngModel)]="billBooksDropdownSettings.selectedBillBook"></p-dropdown>
     </div>
 </div>

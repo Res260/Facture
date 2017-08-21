@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {BillBooksDropdownSettings} from '../../_models/_settings/bill-books-dropdown-settings';
 import {BillBook} from '../../_models/bill-book';
 import {DropdownElement} from '../../_models/dropdown-element';
+import {LocalStorageService} from '../../_services/local-storage.service';
 
 /**
  * Component to choose a billBook to work with.
@@ -16,16 +18,20 @@ export class BillBookDropdownComponent implements OnInit, OnChanges {
     public billBooks: Array<BillBook>;
 
     @Output()
-    protected changeBillBook: EventEmitter<BillBook> = new EventEmitter();
+    public changeBillBook: EventEmitter<BillBook> = new EventEmitter();
 
-    protected selectedBillBook: BillBook;
+    public billBooksDropdownSettings: BillBooksDropdownSettings;
 
     protected dropdownBillBooks: Array<DropdownElement<BillBook>>;
 
-    constructor() {
+    constructor(private localStorageService: LocalStorageService) {
     }
 
+    /**
+     * Sets the selected bill book.
+     */
     public ngOnInit(): void {
+        this.billBooksDropdownSettings = this.localStorageService.get(BillBooksDropdownSettings);
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
@@ -34,8 +40,21 @@ export class BillBookDropdownComponent implements OnInit, OnChanges {
 
             this.dropdownBillBooks = changes['billBooks'].currentValue
                                                          .map(billBook => new DropdownElement(billBook.name, billBook));
-            this.selectedBillBook  = this.dropdownBillBooks[0].value;
+            if (this.billBooksDropdownSettings.selectedBillBook) {
+                this.billBooksDropdownSettings.selectedBillBook = this.dropdownBillBooks.find(
+                    billBook => billBook.value.id === this.billBooksDropdownSettings.selectedBillBook.id
+                ).value;
+                this.changeBillBook.emit(this.billBooksDropdownSettings.selectedBillBook);
+            }
         }
+    }
+
+    /**
+     * Emits the changeBillBook event with the new bill book and saves the selected bill book locally.
+     */
+    protected onChangeBillBook(event: any): void {
+        this.changeBillBook.emit(event.value);
+        this.localStorageService.set(this.billBooksDropdownSettings);
     }
 
 }

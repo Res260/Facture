@@ -2,6 +2,7 @@
     <div class="ui-g-12 ui-g-nopad user-dropdown">
         <h2 class="inline-block" i18n>Utilisateur: </h2>
         <p-dropdown [style]="{'width': '100%'}" [options]="dropdownUsers"
-                    [(ngModel)]="selectedUser"></p-dropdown>
+                    (onChange)="saveSettings()" [(ngModel)]="usersDropdownSettings.selectedUser">
+        </p-dropdown>
     </div>
 </div>

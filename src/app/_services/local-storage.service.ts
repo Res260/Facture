@@ -11,7 +11,7 @@ export class LocalStorageService {
     }
 
     /**
-     * Fetches the settings of a provided settings class. If it doesn't exist, create one
+     * Unpure function that fetches the settings of a provided settings class. If it doesn't exist, create one.
      * @param {typeof Settings} settingsClass The reference to the settings class to get settings from (ex:
      *                                        PaymentSettings).
      * @returns {T} The object containing the settings data.
