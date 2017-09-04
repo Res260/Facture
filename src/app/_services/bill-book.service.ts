@@ -28,4 +28,15 @@ export class BillBookService {
                    .catch(ServiceUtil.handleError);
     }
 
+    /**
+     * Saves a new bill book in the server.
+     * @param {BillBook} newBillBook The bill book to be persisted.
+     * @returns {Observable<BillBook>} The observable of the request.
+     */
+    public createBillBook(newBillBook: BillBook): Observable<BillBook> {
+        return this.http.post(`${environment.backendUrl}billBook`, newBillBook, this.headers)
+                   .map(response => response.json())
+                   .catch(ServiceUtil.handleError);
+    }
+
 }

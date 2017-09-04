@@ -12,9 +12,9 @@ import {PaymentService} from '../../_services/payment.service';
                styleUrls:   ['./payment.component.css']
            })
 export class PaymentComponent implements OnInit {
-    protected readonly PAID: string = 'paid';
+    public static PAID: string   = 'paid';
+    public static UNPAID: string = 'unpaid';
 
-    protected readonly UNPAID: string = 'unpaid';
     @Input()
     protected bills: Array<Bill>;
 
@@ -23,6 +23,9 @@ export class PaymentComponent implements OnInit {
 
     @Input()
     protected selectedBillBook: BillBook;
+
+    protected readonly PAID: string   = PaymentComponent.PAID;
+    protected readonly UNPAID: string = PaymentComponent.UNPAID;
 
     /**
      * Emitted when a payment has been added.
@@ -64,10 +67,10 @@ export class PaymentComponent implements OnInit {
         if (this.paymentSettings.paymentTypesToDisplay.length === 2) {
             paymentsToDisplay = this.payments.reverse();
         } else {
-            if (this.paymentSettings.paymentTypesToDisplay.includes(this.PAID)) {
+            if (this.paymentSettings.paymentTypesToDisplay.includes(PaymentComponent.PAID)) {
                 paymentsToDisplay = this.payments.filter(payment => !payment.isNotPaid).reverse();
             }
-            if (this.paymentSettings.paymentTypesToDisplay.includes(this.UNPAID)) {
+            if (this.paymentSettings.paymentTypesToDisplay.includes(PaymentComponent.UNPAID)) {
                 paymentsToDisplay = this.payments.filter(payment => payment.isNotPaid).reverse();
             }
         }

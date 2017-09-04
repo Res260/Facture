@@ -4,5 +4,8 @@
         <p-dropdown [style]="{'width': '100%'}" [options]="dropdownBillBooks"
                     (onChange)="onChangeBillBook($event)"
                     [(ngModel)]="billBooksDropdownSettings.selectedBillBook"></p-dropdown>
+        <button pButton type="button" (click)="toggleAddBillBookButton()" label="+"></button>
     </div>
+    <app-add-bill-book *ngIf="displayAddBillBook"
+                       (onAddNewBill)="addNewBillBook($event)"></app-add-bill-book>
 </div>

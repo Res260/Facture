@@ -1,7 +1,8 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges} from '@angular/core';
 import {BillBooksDropdownSettings} from '../../_models/_settings/bill-books-dropdown-settings';
 import {BillBook} from '../../_models/bill-book';
 import {DropdownElement} from '../../_models/dropdown-element';
+import {BillBookService} from '../../_services/bill-book.service';
 import {LocalStorageService} from '../../_services/local-storage.service';
 
 /**
@@ -21,10 +22,11 @@ export class BillBookDropdownComponent implements OnInit, OnChanges {
     public changeBillBook: EventEmitter<BillBook> = new EventEmitter();
 
     public billBooksDropdownSettings: BillBooksDropdownSettings;
-
     protected dropdownBillBooks: Array<DropdownElement<BillBook>>;
+    protected displayAddBillBook: boolean = false;
 
-    constructor(private localStorageService: LocalStorageService) {
+    constructor(private localStorageService: LocalStorageService,
+                private billBookService: BillBookService) {
     }
 
     /**
@@ -35,16 +37,10 @@ export class BillBookDropdownComponent implements OnInit, OnChanges {
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        if (changes['billBooks'] && changes['billBooks'].currentValue &&
-            changes['billBooks'].currentValue.length > 0) {
-
-            this.dropdownBillBooks = changes['billBooks'].currentValue
-                                                         .map(billBook => new DropdownElement(billBook.name, billBook));
-            if (this.billBooksDropdownSettings.selectedBillBook) {
-                this.billBooksDropdownSettings.selectedBillBook = this.dropdownBillBooks.find(
-                    billBook => billBook.value.id === this.billBooksDropdownSettings.selectedBillBook.id
-                ).value;
-                this.changeBillBook.emit(this.billBooksDropdownSettings.selectedBillBook);
+        if (this.billBookListIsNotEmpty(changes['billBooks'])) {
+            this.setBillBookDropdownList(changes['billBooks'].currentValue);
+            if (changes['billBooks'].currentValue.length !== changes['billBooks'].previousValue.length + 1) {
+                this.selectGoodBillBookAccordingToSettings();
             }
         }
     }
@@ -55,6 +51,49 @@ export class BillBookDropdownComponent implements OnInit, OnChanges {
     protected onChangeBillBook(event: any): void {
         this.changeBillBook.emit(event.value);
         this.localStorageService.set(this.billBooksDropdownSettings);
+    }
+
+    /**
+     * Saves a billBook, then add it to the list of bill books and make it the selected one.
+     * @param {BillBook} billBookToAdd The billBook that's gonna be persisted.
+     */
+    protected addNewBillBook(billBookToAdd: BillBook): void {
+        this.billBookService.createBillBook(billBookToAdd).subscribe(newestBillBook => {
+            this.billBooks                                  = [...this.billBooks, newestBillBook];
+            this.billBooksDropdownSettings.selectedBillBook = newestBillBook;
+            this.setBillBookDropdownList(this.billBooks);
+            this.onChangeBillBook({value: newestBillBook});
+        });
+    }
+
+    protected toggleAddBillBookButton(): void {
+        this.displayAddBillBook = !this.displayAddBillBook;
+    }
+
+    /**
+     * @param {SimpleChange} change The SimpleChange object containing the state of the billBookList before and after
+     *                       the change.
+     * @returns {boolean} True if its a list with more than 0 elements, else false.
+     */
+    private billBookListIsNotEmpty(change: SimpleChange): boolean {
+        return change && change.currentValue &&
+               change.currentValue.length > 0;
+    }
+
+    private setBillBookDropdownList(billBooks: Array<BillBook>): void {
+        this.dropdownBillBooks = billBooks.map(billBook => new DropdownElement(billBook.name, billBook));
+    }
+
+    /**
+     * Sets the selected bill book according to the one in the settings.
+     */
+    private selectGoodBillBookAccordingToSettings(): void {
+        if (this.billBooksDropdownSettings.selectedBillBook) {
+            this.billBooksDropdownSettings.selectedBillBook = this.dropdownBillBooks.find(
+                billBook => billBook.value.id === this.billBooksDropdownSettings.selectedBillBook.id
+            ).value;
+            this.changeBillBook.emit(this.billBooksDropdownSettings.selectedBillBook);
+        }
     }
 
 }

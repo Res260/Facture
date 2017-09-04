@@ -1,3 +1,4 @@
+import {PaymentComponent} from '../../components/payment/payment.component';
 import {Settings} from './settings';
 
 /**
@@ -9,6 +10,6 @@ export class PaymentSettings extends Settings {
 
     constructor() {
         super();
-        this.paymentTypesToDisplay = [];
+        this.paymentTypesToDisplay = [PaymentComponent.PAID, PaymentComponent.UNPAID];
     }
 }
