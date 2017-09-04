@@ -6,7 +6,8 @@
                [(ngModel)]="newBill.title"/>
     </div>
     <div class="ui-sm-6 ui-g-3">
-        <p-spinner [(ngModel)]="newBill.totalPrice" [min]="0" [size]="13" i18n-placeholder
+        <p-spinner [(ngModel)]="newBill.totalPrice" [min]="0" [size]="13" [step]="0.01"
+                   i18n-placeholder
                    [placeholder]="'Prix payé'" class="full-width"></p-spinner>
     </div>
     <div class="ui-sm-12 ui-g-3">

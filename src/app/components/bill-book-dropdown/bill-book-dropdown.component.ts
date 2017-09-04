@@ -59,13 +59,16 @@ export class BillBookDropdownComponent implements OnInit, OnChanges {
      */
     protected addNewBillBook(billBookToAdd: BillBook): void {
         this.billBookService.createBillBook(billBookToAdd).subscribe(newestBillBook => {
-            this.billBooks                                  = [...this.billBooks, newestBillBook];
+            this.billBooks.push(newestBillBook);
             this.billBooksDropdownSettings.selectedBillBook = newestBillBook;
             this.setBillBookDropdownList(this.billBooks);
             this.onChangeBillBook({value: newestBillBook});
         });
     }
 
+    /**
+     * Displays or hides the "add bill book" form
+     */
     protected toggleAddBillBookButton(): void {
         this.displayAddBillBook = !this.displayAddBillBook;
     }

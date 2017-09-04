@@ -4,5 +4,8 @@
         <p-dropdown [style]="{'width': '100%'}" [options]="dropdownUsers"
                     (onChange)="saveSettings()" [(ngModel)]="usersDropdownSettings.selectedUser">
         </p-dropdown>
+        <button pButton type="button" (click)="toggleAddUserButton()" label="+"></button>
     </div>
+    <app-add-user *ngIf="displayAddUserForm"
+                  (onAddNewBill)="addNewUser($event)"></app-add-user>
 </div>

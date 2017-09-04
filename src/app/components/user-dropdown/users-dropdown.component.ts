@@ -3,6 +3,7 @@ import {UsersDropdownSettings} from '../../_models/_settings/users-dropdown-sett
 import {DropdownElement} from '../../_models/dropdown-element';
 import {User} from '../../_models/user';
 import {LocalStorageService} from '../../_services/local-storage.service';
+import {UserService} from '../../_services/user.service';
 
 /**
  * Component to choose from a list of users.
@@ -20,8 +21,10 @@ export class UsersDropdownComponent implements OnInit, OnChanges {
     public usersDropdownSettings: UsersDropdownSettings;
 
     protected dropdownUsers: Array<DropdownElement<User>>;
+    protected displayAddUserForm: boolean = false;
 
-    constructor(private localStorageService: LocalStorageService) {
+    constructor(private localStorageService: LocalStorageService,
+                private userService: UserService) {
     }
 
     /**
@@ -37,8 +40,7 @@ export class UsersDropdownComponent implements OnInit, OnChanges {
      */
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes['users'] && changes['users'].currentValue) {
-            this.dropdownUsers = changes['users'].currentValue.map(
-                user => new DropdownElement(user.name, user));
+            this.setUserDropdownList(changes['users'].currentValue);
             if (!this.usersDropdownSettings.selectedUser) {
                 this.usersDropdownSettings.selectedUser = this.dropdownUsers[0].value;
             }
@@ -46,10 +48,37 @@ export class UsersDropdownComponent implements OnInit, OnChanges {
     }
 
     /**
+     * Saves a user, then add it to the list of users and make it the selected one.
+     * @param {User} userToAdd The billBook that's gonna be persisted.
+     */
+    protected addNewUser(userToAdd: User): void {
+        this.userService.createUser(userToAdd).subscribe(newestUser => {
+            this.users.push(newestUser);
+            this.usersDropdownSettings.selectedUser = newestUser;
+            this.setUserDropdownList(this.users);
+        });
+    }
+
+    /**
+     * Displays or hides the "add user" form
+     */
+    protected toggleAddUserButton(): void {
+        this.displayAddUserForm = !this.displayAddUserForm;
+    }
+
+    /**
      * Saves the selected user.
      */
     protected saveSettings(): void {
         this.localStorageService.set(this.usersDropdownSettings);
+    }
+
+    /**
+     * Sets the list of users to display in a dropdown.
+     * @param {Array<User>} users The list of users to create the dropdown list from
+     */
+    private setUserDropdownList(users: Array<User>): void {
+        this.dropdownUsers = users.map(user => new DropdownElement(user.name, user));
     }
 
 }

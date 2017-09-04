@@ -1,0 +1,11 @@
+<div class="ui-g">
+    <input pInputText [(ngModel)]="userToAdd.name" placeholder="Nom de l'utilisateur"
+           i18n-placeholder/>
+    <input pInputText [(ngModel)]="userToAdd.email"
+           placeholder="email"
+           i18n-placeholder/>
+    <input pInputText [(ngModel)]="userToAdd.profilePicUrl"
+           placeholder="User ID"
+           i18n-placeholder/>
+    <button pButton (click)="addBillBook()" label="Ajouter" i18n-label></button>
+</div>

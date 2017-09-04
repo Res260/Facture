@@ -17,6 +17,7 @@ import {UserService} from './_services/user.service';
 
 import {AppComponent} from './app.component';
 import {AddBillBookComponent} from './components/add-bill-book/add-bill-book.component';
+import {AddUserComponent} from './components/add-user/add-user.component';
 import {AmountComponent} from './components/amount/amount.component';
 import {BillBookDropdownComponent} from './components/bill-book-dropdown/bill-book-dropdown.component';
 import {BillsComponent} from './components/bills/bills.component';
@@ -33,7 +34,8 @@ import {UserComponent} from './components/user/user.component';
                   BillsComponent,
                   AmountComponent,
                   BillBookDropdownComponent,
-                  AddBillBookComponent
+                  AddBillBookComponent,
+                  AddUserComponent
               ],
               imports:      [
                   AppShellModule.runtime(),

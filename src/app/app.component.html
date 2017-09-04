@@ -4,10 +4,11 @@
     <app-bill-book-dropdown [billBooks]="billBooks"
                             (changeBillBook)="onChangeBillBook($event)">
     </app-bill-book-dropdown>
-    <app-payment *ngIf="selectedBillBook.payments.length > 0" [payments]="selectedBillBook.payments"
+    <app-payment *ngIf="selectedBillBook && selectedBillBook.payments.length > 0"
+                 [payments]="selectedBillBook.payments"
                  [bills]="selectedBillBook.bills" [selectedBillBook]="selectedBillBook"
                  (paymentAdded)="updatePaymentList($event)"
                  (paymentDeleted)="updatePaymentList()"></app-payment>
-    <app-bills [bills]="selectedBillBook.bills" [users]="users"
+    <app-bills *ngIf="selectedBillBook" [bills]="selectedBillBook.bills" [users]="users"
                (onAddNewBill)="addNewBill($event)" (onDeleteBill)="updatePaymentList()"></app-bills>
 </div>

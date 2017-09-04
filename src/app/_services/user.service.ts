@@ -24,8 +24,19 @@ export class UserService {
      */
     public getAll(): Observable<Array<User>> {
         return this.http.get(`${environment.backendUrl}user`, this.headers)
-            .map(response => response.json())
-            .catch(ServiceUtil.handleError);
+                   .map(response => response.json())
+                   .catch(ServiceUtil.handleError);
+    }
+
+    /**
+     * Saves a new user in the server.
+     * @param {User} newUser The user to be persisted.
+     * @returns {Observable<User>} The observable of the request.
+     */
+    public createUser(newUser: User): Observable<User> {
+        return this.http.post(`${environment.backendUrl}user`, newUser, this.headers)
+                   .map(response => response.json())
+                   .catch(ServiceUtil.handleError);
     }
 
 }
