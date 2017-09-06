@@ -1,31 +1,14 @@
-Lisence is GPL 2.0
+Note: This is only the front-end of the application. To get the backend (made in Laravel), see here: https://github.com/LaMachineCaron/TheCashBook
 
 # Facture
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.1.
-STILL WORK IN PROGRESS
+(Yeah it needs a better name.)
+I made this app to manage who owes money to who in the appartment. Ex: I pay for the Internet, but another roommate pays the rent, sometimes we share food, etc. Basically, you add bills, say who paid for it, say who should pay a part of it. With that information, it tells who should send money to who.
+
+You can mark payments as "paid" once to keep track of payments you did to other people.
 
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Licence is GPL 2.0
