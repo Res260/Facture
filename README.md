@@ -7,6 +7,8 @@ I made this app to manage who owes money to who in the appartment. Ex: I pay for
 
 You can mark payments as "paid" once to keep track of payments you did to other people.
 
+[[http://i.imgur.com/yJN3a0k.png]]
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
