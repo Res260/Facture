@@ -11,7 +11,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class AmountComponent implements OnInit {
 
     @Input()
-    protected amount: number;
+    public amount: number;
 
     constructor() {
     }

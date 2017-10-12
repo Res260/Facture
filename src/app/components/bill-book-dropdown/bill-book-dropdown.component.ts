@@ -22,8 +22,8 @@ export class BillBookDropdownComponent implements OnInit, OnChanges {
     public changeBillBook: EventEmitter<BillBook> = new EventEmitter();
 
     public billBooksDropdownSettings: BillBooksDropdownSettings;
-    protected dropdownBillBooks: Array<DropdownElement<BillBook>>;
-    protected displayAddBillBook: boolean = false;
+    public dropdownBillBooks: Array<DropdownElement<BillBook>>;
+    public displayAddBillBook: boolean = false;
 
     constructor(private localStorageService: LocalStorageService,
                 private billBookService: BillBookService) {
@@ -48,7 +48,7 @@ export class BillBookDropdownComponent implements OnInit, OnChanges {
     /**
      * Emits the changeBillBook event with the new bill book and saves the selected bill book locally.
      */
-    protected onChangeBillBook(event: any): void {
+    public onChangeBillBook(event: any): void {
         this.changeBillBook.emit(event.value);
         this.localStorageService.set(this.billBooksDropdownSettings);
     }
@@ -57,7 +57,7 @@ export class BillBookDropdownComponent implements OnInit, OnChanges {
      * Saves a billBook, then add it to the list of bill books and make it the selected one.
      * @param {BillBook} billBookToAdd The billBook that's gonna be persisted.
      */
-    protected addNewBillBook(billBookToAdd: BillBook): void {
+    public addNewBillBook(billBookToAdd: BillBook): void {
         this.billBookService.createBillBook(billBookToAdd).subscribe(newestBillBook => {
             this.billBooks.push(newestBillBook);
             this.billBooksDropdownSettings.selectedBillBook = newestBillBook;
@@ -69,7 +69,7 @@ export class BillBookDropdownComponent implements OnInit, OnChanges {
     /**
      * Displays or hides the "add bill book" form
      */
-    protected toggleAddBillBookButton(): void {
+    public toggleAddBillBookButton(): void {
         this.displayAddBillBook = !this.displayAddBillBook;
     }
 

@@ -9,10 +9,10 @@ import {User} from '../../_models/user';
 export class UserComponent implements OnInit {
 
     @Input()
-    protected user: User;
+    public user: User;
 
     @Input()
-    protected displayName: boolean = true;
+    public displayName: boolean = true;
 
     constructor() {
     }

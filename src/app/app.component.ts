@@ -17,11 +17,11 @@ import {UsersDropdownComponent} from './components/user-dropdown/users-dropdown.
 export class AppComponent implements OnInit {
 
     @ViewChild('usersDropdown')
-    protected usersDropdownComponent: UsersDropdownComponent;
+    public usersDropdownComponent: UsersDropdownComponent;
 
-    protected billBooks: Array<BillBook> = [];
-    protected selectedBillBook: BillBook = new BillBook();
-    protected users: Array<User>;
+    public billBooks: Array<BillBook> = [];
+    public selectedBillBook: BillBook = new BillBook();
+    public users: Array<User>;
 
     constructor(private billService: BillService,
                 private billBookService: BillBookService,
@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
      * Requests the server to save a new {@link Bill} created by the selected user. On success, updates the list of
      * payments.
      */
-    protected addNewBill(billAndUsers: { bill: Bill, users: Array<User> }): void {
+    public addNewBill(billAndUsers: { bill: Bill, users: Array<User> }): void {
         this.billManager.addBillPartsToBillFromUserList(billAndUsers.users, billAndUsers.bill);
         this.billManager.splitBillEvenly(billAndUsers.bill);
         billAndUsers.bill.user       = this.usersDropdownComponent.usersDropdownSettings.selectedUser;
@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
     /**
      * Update the selected billBook and recalculate the payments.
      */
-    protected onChangeBillBook(newBillBook: BillBook): void {
+    public onChangeBillBook(newBillBook: BillBook): void {
         this.selectedBillBook = newBillBook;
         this.updatePaymentList();
     }
@@ -74,7 +74,7 @@ export class AppComponent implements OnInit {
     /**
      * Updates the list of payments.
      */
-    protected updatePaymentList(): void {
+    public updatePaymentList(): void {
         this.selectedBillBook.payments = this.paymentManager.updatePayments(this.selectedBillBook.payments,
                                                                             this.selectedBillBook.bills, this.users);
     }

@@ -15,9 +15,9 @@ export class AddUserComponent implements OnInit {
      * Emitted when a user must be created.
      */
     @Output()
-    protected onAddNewBill: EventEmitter<User> = new EventEmitter();
+    public onAddNewBill: EventEmitter<User> = new EventEmitter();
 
-    protected userToAdd: User = new User();
+    public userToAdd: User = new User();
 
     constructor() {
     }
@@ -28,7 +28,7 @@ export class AddUserComponent implements OnInit {
     /**
      * Gets the profile pic url, emits the event with the bill book to add and resets the form.
      */
-    protected addBillBook(): void {
+    public addBillBook(): void {
         this.userToAdd.profilePicUrl = `https://graph.facebook.com/v2.10/${this.userToAdd.profilePicUrl}` +
                                        '/picture?type=square&width=200';
         this.onAddNewBill.emit(this.userToAdd);

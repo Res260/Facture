@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="fr" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="8f485f9d7bef37aaff7e97558a163beadcbb6af0" datatype="html">
+        <source>Utilisateur: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\user-dropdown\users-dropdown.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9a00c6dc4a034573f5b415f330e11202645bec2e" datatype="html">
+        <source>Gestion des factures</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\app.component.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f867cd7094f0e9dafbed0278c96e87146aa00ba9" datatype="html">
+        <source>Nom du nouveau livre de facture</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\add-bill-book\add-bill-book.component.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8aa969e69241c7c5838b40348f913519d6349371" datatype="html">
+        <source>Ajouter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\add-bill-book\add-bill-book.component.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\add-user\add-user.component.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\bills\bills.component.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f1faa837db9dba463ccdb5b62882af61c566e925" datatype="html">
+        <source>Nom de l&apos;utilisateur</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\add-user\add-user.component.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0b15bf6fa1e5bdabc9fde97a14bee63a5d5e62f6" datatype="html">
+        <source>email</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\add-user\add-user.component.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="83c4d4d764d2e2725ab8e919ec16ac400e1f290a" datatype="html">
+        <source>User ID</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\add-user\add-user.component.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7073a42dc76107ae60b6b4aafc2c94e7b2841f4d" datatype="html">
+        <source>Livre de factures: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\bill-book-dropdown\bill-book-dropdown.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bca4cbcadab78e16f6daac58326d0940c88a261f" datatype="html">
+        <source>Ajouter une facture:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\bills\bills.component.ts</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d0edcaa72584314deedb236dac5e98c8d864e0b0" datatype="html">
+        <source>Nouvelle facture...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\bills\bills.component.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="730254026337643fb23860c57be6d29d0038bd9e" datatype="html">
+        <source>Liste des factures:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\bills\bills.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="584088d877cdab7c3839b5194650c881bf2953b7" datatype="html">
+        <source>Payé par</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\bills\bills.component.ts</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="622c8cdb03ed166e3e1b652021cf0992cb26bc18" datatype="html">
+        <source>Titre</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\bills\bills.component.ts</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="449311c159f768400f15704463b0ab60a9cab5cc" datatype="html">
+        <source>Prix payé</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\bills\bills.component.ts</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="490f3e3c6ddcc9f5b23c04eda50161ad34a64a33" datatype="html">
+        <source>Séparé avec</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\bills\bills.component.ts</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e32da846622c2c2eb7a59b745110dbbdb05407b7" datatype="html">
+        <source>Supprimer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\bills\bills.component.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c18ea663b99d3cb6d185daefadf10433aec85a91" datatype="html">
+        <source>Paiments:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\payment\payment.component.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="43d42cc8cd5ae1eb6b784a3f6781000ee1db0d8d" datatype="html">
+        <source>Non-payés</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\payment\payment.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="17a2a35c39b0a747b148bc89caeb5f7d026153de" datatype="html">
+        <source>Payés</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\components\payment\payment.component.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

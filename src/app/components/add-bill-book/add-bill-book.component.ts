@@ -15,9 +15,9 @@ export class AddBillBookComponent implements OnInit {
      * Emitted when a billBook must be created.
      */
     @Output()
-    protected onAddNewBill: EventEmitter<BillBook> = new EventEmitter();
+    public onAddNewBill: EventEmitter<BillBook> = new EventEmitter();
 
-    protected billBookToAdd: BillBook = new BillBook();
+    public billBookToAdd: BillBook = new BillBook();
 
     constructor() {
     }
@@ -28,7 +28,7 @@ export class AddBillBookComponent implements OnInit {
     /**
      * Emits the event with the bill book to add and resets the form.
      */
-    protected addBillBook(): void {
+    public addBillBook(): void {
         this.onAddNewBill.emit(this.billBookToAdd);
         this.billBookToAdd = new BillBook();
     }

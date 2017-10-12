@@ -16,30 +16,30 @@ export class PaymentComponent implements OnInit {
     public static UNPAID: string = 'unpaid';
 
     @Input()
-    protected bills: Array<Bill>;
+    public bills: Array<Bill>;
 
     @Input()
-    protected payments: Array<Payment>;
+    public payments: Array<Payment>;
 
     @Input()
-    protected selectedBillBook: BillBook;
+    public selectedBillBook: BillBook;
 
-    protected readonly PAID: string   = PaymentComponent.PAID;
-    protected readonly UNPAID: string = PaymentComponent.UNPAID;
+    public readonly PAID: string   = PaymentComponent.PAID;
+    public readonly UNPAID: string = PaymentComponent.UNPAID;
 
     /**
      * Emitted when a payment has been added.
      */
     @Output()
-    protected paymentAdded: EventEmitter<void> = new EventEmitter<void>();
+    public paymentAdded: EventEmitter<void> = new EventEmitter<void>();
 
     /**
      * Emitted when a payment has been deleted.
      */
     @Output()
-    protected paymentDeleted: EventEmitter<void> = new EventEmitter<void>();
+    public paymentDeleted: EventEmitter<void> = new EventEmitter<void>();
 
-    protected paymentSettings: PaymentSettings;
+    public paymentSettings: PaymentSettings;
 
     constructor(private paymentService: PaymentService,
                 private localStorageService: LocalStorageService) {
@@ -55,14 +55,14 @@ export class PaymentComponent implements OnInit {
     /**
      * Saves the payment settings in local storage.
      */
-    protected savePayments(): void {
+    public savePayments(): void {
         this.localStorageService.set(this.paymentSettings);
     }
 
     /**
      * @returns {Array<Payment>} The array of payments to display depending on the selected boxes of the filters.
      */
-    protected getPaymentsToDisplay(): Array<Payment> {
+    public getPaymentsToDisplay(): Array<Payment> {
         let paymentsToDisplay: Array<Payment> = [];
         if (this.paymentSettings.paymentTypesToDisplay.length === 2) {
             paymentsToDisplay = this.payments.reverse();
@@ -81,7 +81,7 @@ export class PaymentComponent implements OnInit {
      * Saves a new payment if it has not been paid. Else delete it. Then, add it to the list of payment.
      * @param {Payment} payment The payment to persist.
      */
-    protected addNewPaymentOrDeleteExistingPayment(payment: Payment): void {
+    public addNewPaymentOrDeleteExistingPayment(payment: Payment): void {
         if (payment.isNotPaid) {
             this.addNewPayment(payment);
         } else {

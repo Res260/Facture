@@ -20,8 +20,8 @@ export class UsersDropdownComponent implements OnInit, OnChanges {
 
     public usersDropdownSettings: UsersDropdownSettings;
 
-    protected dropdownUsers: Array<DropdownElement<User>>;
-    protected displayAddUserForm: boolean = false;
+    public dropdownUsers: Array<DropdownElement<User>>;
+    public displayAddUserForm: boolean = false;
 
     constructor(private localStorageService: LocalStorageService,
                 private userService: UserService) {
@@ -51,7 +51,7 @@ export class UsersDropdownComponent implements OnInit, OnChanges {
      * Saves a user, then add it to the list of users and make it the selected one.
      * @param {User} userToAdd The billBook that's gonna be persisted.
      */
-    protected addNewUser(userToAdd: User): void {
+    public addNewUser(userToAdd: User): void {
         this.userService.createUser(userToAdd).subscribe(newestUser => {
             this.users.push(newestUser);
             this.usersDropdownSettings.selectedUser = newestUser;
@@ -62,14 +62,14 @@ export class UsersDropdownComponent implements OnInit, OnChanges {
     /**
      * Displays or hides the "add user" form
      */
-    protected toggleAddUserButton(): void {
+    public toggleAddUserButton(): void {
         this.displayAddUserForm = !this.displayAddUserForm;
     }
 
     /**
      * Saves the selected user.
      */
-    protected saveSettings(): void {
+    public saveSettings(): void {
         this.localStorageService.set(this.usersDropdownSettings);
     }
 

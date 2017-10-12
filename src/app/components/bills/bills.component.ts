@@ -18,35 +18,35 @@ export class BillsComponent implements OnInit {
      * The list of bills to display.
      */
     @Input()
-    protected bills: Array<Bill>;
+    public bills: Array<Bill>;
 
     /**
      * The list of users that we can separate a bill with.
      */
     @Input()
-    protected users: Array<User>;
+    public users: Array<User>;
 
     /**
      * Emitted when a bill must be created.
      */
     @Output()
-    protected onAddNewBill: EventEmitter<{ bill: Bill, users: Array<User> }> = new EventEmitter();
+    public onAddNewBill: EventEmitter<{ bill: Bill, users: Array<User> }> = new EventEmitter();
 
     /**
      * Emitted when a bill has been deleted.
      */
     @Output()
-    protected onDeleteBill: EventEmitter<void> = new EventEmitter<void>();
+    public onDeleteBill: EventEmitter<void> = new EventEmitter<void>();
 
     /**
      * A new bill that the user can populate its information.
      */
-    protected newBill: Bill = new Bill();
+    public newBill: Bill = new Bill();
 
     /**
      * The user that need to pay the newBill.
      */
-    protected newBillPartUsers: Array<User> = [];
+    public newBillPartUsers: Array<User> = [];
 
     constructor(private billService: BillService) {
     }
@@ -57,7 +57,7 @@ export class BillsComponent implements OnInit {
     /**
      * Emits an event to create a new bill. Then, reset the newBill and newBillPartUsers variables.
      */
-    protected addNewBill(): void {
+    public addNewBill(): void {
         this.onAddNewBill.emit({bill: this.newBill, users: this.newBillPartUsers});
         this.newBill          = new Bill();
         this.newBillPartUsers = [];
@@ -67,7 +67,7 @@ export class BillsComponent implements OnInit {
      * Asks the server to delete a bill. Once done, remove it from the list of bills.
      * @param {Bill} bill The bill to remove.
      */
-    protected deleteBill(bill: Bill): void {
+    public deleteBill(bill: Bill): void {
         this.billService.deleteBill(bill.id).subscribe(() => {
             const billIndex: number = this.bills.indexOf(bill);
             this.bills.splice(billIndex, 1);
@@ -80,7 +80,7 @@ export class BillsComponent implements OnInit {
      * @param {BillPart} billPart2 Second billPart to compare
      * @returns {number} -1 if billPart1 has a lower id than billPart2, else 1.
      */
-    protected billPartSortCondition(billPart1: BillPart, billPart2: BillPart): number {
+    public billPartSortCondition(billPart1: BillPart, billPart2: BillPart): number {
         return billPart1.user.id < billPart2.user.id ? -1 : 1;
     }
 
